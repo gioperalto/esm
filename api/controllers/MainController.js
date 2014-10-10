@@ -18,9 +18,13 @@
 var MainController = {
 
 	index: function(req, res) {
+		// DELETE ALL USERS
+		// User.destroy()
+		// .exec(function (err){});
 		// DELETE ALL PLAYERS
 		// Player.destroy()
 		// .exec(function (err){});
+		// DELETE ALL GAMES
 		// Game.destroy()
 		// .exec(function (err){});
 		res.view({user: req.session.user});
