@@ -1,5 +1,5 @@
-Fix money glitch
-Add 5 players per account created
+Fix money glitch #done
+Add 5 players per account created #done
 3 players per day added
 retire players at age of 35
 players age 1 year a week
