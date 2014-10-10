@@ -1,0 +1,39 @@
+<section class="history container">
+	<div class="row">
+		<h1 class="history-header">
+			<img class="pull-left" src="<%-player.picture%>" width="50" height="50">
+			&nbsp;
+			<%-player.name%>'s Game History
+		</h1>
+	</div>
+	<div class="row">
+		<!-- Nav tabs -->
+		<ul class="nav nav-tabs" role="tablist">
+		  <li class="active"><a href="#lol" role="tab" data-toggle="tab">League of Legends</a></li>
+		</ul>
+
+		<!-- Tab panes -->
+		<div class="tab-content">
+		  <div class="tab-pane active" id="lol">
+			<table class="table">
+			  <thead>
+			  	<tr>
+			  		<th>Date Played</th>
+			  		<th>Mood</th>
+			  		<th>Win/Loss</th>
+			  	</tr>
+			  </thead>
+			  <tbody>
+			  	<%for(var i = 0; i < games.length; i++) {%>
+			  	<tr>
+			  		<td><%-new Date(games[i].createdAt)%></td>
+			  		<td><%-games[i].player_mood%></td>
+			  		<td style="color:<%if(games[i].victory){%>green<%}else{%>red<%}%>"><%if(games[i].victory){%>Win<%}else{%>Loss<%}%></td>
+			  	</tr>
+			  	<%}%>
+			  </tbody>
+			</table>
+		  </div>
+		</div>
+	</div>
+</section>

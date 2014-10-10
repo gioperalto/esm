@@ -1,0 +1,49 @@
+<section class="member container">
+	<div class="row">
+		<h1>My Teams</h1>
+	</div>
+	<div class="row">
+		<!-- Nav tabs -->
+		<ul class="nav nav-tabs" role="tablist">
+		  <li class="active"><a href="#lol" role="tab" data-toggle="tab">League of Legends</a></li>
+		</ul>
+
+		<!-- Tab panes -->
+		<div class="tab-content">
+		  <div class="tab-pane active" id="lol">
+			<table class="table">
+			  <thead>
+			  	<tr>
+			  		<th></th>
+			  		<th>Player Name</th>
+			  		<th>Role</th>
+			  		<th>ELO</th>
+			  		<th>Rank</th>
+			  		<th>Mood</th>
+			  		<th>Age</th>
+			  		<th>Value</th>
+			  		<th>Match History</th>
+			  		<th>Offers</th>
+			  	</tr>
+			  </thead>
+			  <tbody>
+			  	<%for(var i = 0; i < players.length; i++) {%>
+			  	<tr>
+			  		<td><img src="<%-players[i].picture%>" width="25" height="25"></td>
+			  		<td><%-players[i].name%></td>
+			  		<td><%-players[i].role%></td>
+			  		<td><%-players[i].visible_elo%></td>
+			  		<td><%-players[i].rank%></td>
+			  		<td><%-players[i].mood%></td>
+			  		<td><%-players[i].age%></td>
+			  		<td>$<%-players[i].value%></td>
+			  		<td><a href="/player/history?id=<%-players[i].id%>" class="btn btn-info btn-sm">View History</a></td>
+					<td><a class="btn btn-warning btn-sm">View Offers</a></td>
+			  	</tr>
+			  	<%}%>
+			  </tbody>
+			</table>
+		  </div>
+		</div>
+	</div>
+</section>

@@ -1,4 +1,2 @@
-esm
-===
-
-E-Sports Manager is  a web application.
+# E-Sports Manager
+### E-Sports Manager is a web application
