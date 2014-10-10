@@ -56,6 +56,10 @@ var UserController = {
 	    		})
 			}
 		});
+
+		for(var i = 0; i < 5; i++) {
+			PlayerManager.createPlayer();
+		}
 	},
 
 	login: function(req, res) {
