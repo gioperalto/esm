@@ -188,6 +188,28 @@
     </div>
 
     <script type="text/javascript">
+      // METHOD FOR GET REQUEST
+      function getUrlParameter(sParam)
+      {
+          var sPageURL = window.location.search.substring(1);
+          var sURLVariables = sPageURL.split('&');
+          for (var i = 0; i < sURLVariables.length; i++) 
+          {
+              var sParameterName = sURLVariables[i].split('=');
+              if (sParameterName[0] == sParam) 
+              {
+                  return sParameterName[1];
+              }
+          }
+      }          
+
+      // ERROR NOTIFICATIONS
+      if($.param('error')) {
+        $("nav").parent().prepend('<div class="alert alert-danger" role="alert" style="margin-bottom:0;">' 
+          + '<strong>Error!</strong> ' + getUrlParameter('error').replace(/%20/g," ") + '</div>');
+        $(".alert.alert-danger").fadeOut(3000);
+      }
+
       // PASSWORD VALIDATION
       $("#signupConfirmPassword").keyup(function() {
         var password = $("#signupPassword").val();

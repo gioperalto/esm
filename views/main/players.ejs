@@ -66,12 +66,9 @@
 		} else {
 			$.post(
 	          '/player/purchase',
-	          {id: id},
-	          function() {
-	      		$(this).parent().parent().fadeOut(2000); 
-	            location.reload();
-	          }
+	          {id: id}
 	      	);
+	      	$(this).parent().parent().fadeOut().location.reload();
 		}
 	});
 	// TRADE PLAYER SCRIPT
