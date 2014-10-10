@@ -1,0 +1,15 @@
+Fix money glitch
+Add 5 players per account created
+3 players per day added
+retire players at age of 35
+players age 1 year a week
+user profile
+make it available online (put the site up lol)
+graph that shows elo gained and lost past month
+player profiles that show the graph and match history
+add friend button, make it like facebook style lol i guess, showing their team #that can wait
+add forums #that can wait
+make tournaments that let you enter them and then see results at midnight
+LCS style where ppl submit their applications with their fame and top 10 highest fames get chosen to play in the LCS.
+
+

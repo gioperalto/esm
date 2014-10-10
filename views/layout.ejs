@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!--
+        For demonstration purposes, the `title` is dynamically set here based on
+        your `sails.config.appName` to show that you can inject data into layouts
+        exactly the same way as with your other view templates.
+    -->
+    <title><%- title %></title>
+
+    <!-- Viewport mobile tag for sensible mobile support -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+    <!--
+
+      Stylesheets
+      ========================
+
+      You can link any CSS, LESS, or image files in your `assets` directory
+      as you would normally: using <link/> tags.
+      
+    -->
+
+    <!-- Foundation -->
+    <link rel="stylesheet" type="text/css" href="/styles/plugins/bootstrap.css">
+    <!-- Font-Awesome -->
+    <link rel="stylesheet" type="text/css" href="/styles/plugins/font-awesome/css/font-awesome.css">
+
+    <%if(user){%>
+    <!-- Member Style Sheet -->
+    <link rel="stylesheet" type="text/css" href="/styles/member.css">
+    <%}else{%>
+    <!-- Overrides -->
+    <link rel="stylesheet" type="text/css" href="/styles/overrides.css">
+    <%}%>
+    <!--
+
+      Support for LESS included by default
+      ================================================
+
+      LESS files are automatically compiled when they change using the Gruntfile
+      located in the top-level of this Sails app.  If you run into issues with styles
+      not reloading, check the Sails log output in your console for LESS compilation errors.
+      If necessary, shut down and then lift your app again.
+      
+    -->
+
+    <!--
+
+      Client-side Javascript
+      ========================
+
+      You can import any js files in your `assets` directory as you would 
+      normally: using <script></script> tags.
+
+      Here's an example of importing a few dependencies, in order:
+    -->
+    <!-- jQuery -->
+    <script type="text/javascript" src="/js/plugins/jquery.js"></script>
+    <!-- Bring in the socket.io client -->
+    <script type="text/javascript" src="/js/socket.io.js"></script>
+    <!-- then beef it up with some convenience logic for talking to Sails.js -->
+    <script type="text/javascript" src="/js/sails.io.js"></script>
+    <!-- listen on socket.io for incoming messages -->
+    <script type="text/javascript" src="/js/app.js"></script>
+
+    <!-- Your scripts here? -->
+    <!-- Your scripts here? -->
+    <!-- Your scripts here? -->
+
+    <!-- Foundation -->
+    <script type="text/javascript" src="/js/plugins/bootstrap.js"></script>
+
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-default" role="navigation">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="<%if(user){%>/member<%}else{%>/<%}%>"><i class="fa fa-trophy"></i> E-Sports Manager</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+            <li><a href="/players"><i class="fa fa-users"></i> Players</a></li>
+            <li><a href="#"><i class="fa fa-star"></i> Hall of Fame</a></li>
+            <%if(user){%>
+            <li><a href="#"><i class="fa fa-sitemap"></i> Compete</a></li>
+            <%}%>            
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <%if(user){%>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%-user.username%> <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="#">Profile</a></li>
+                <li><a href="/member/teams">My Teams</a></li>
+                <li class="divider"></li>
+                <li><a href="/user/logout">Log Out</a><li>
+              </ul>
+            </li>
+            <%}else{%>
+            <li><a href="#" data-toggle="modal" data-target="#loginModal">Log In</a></li>
+            <li><a href="#" data-toggle="modal" data-target="#signupModal">Sign Up</a></li>
+            <%}%>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+
+    <!-- Include the view file for the current controller/route -->
+    <%- body %>
+
+    <!-- Log In Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2 class="modal-title" id="myModalLabel">Log In</h2>
+          </div>
+          <form role="form" method="post" action="/user/login">
+            <div class="modal-body">
+                <div class="form-group">
+                  <label for="email">Email</label>
+                  <input type="email" class="form-control" name="email" placeholder="Enter email" required="">
+                </div>
+                <div class="form-group">
+                  <label for="password">Password</label>
+                  <input type="password" class="form-control" name="password" placeholder="Enter password" required="">
+                </div>
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary">Log In</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sign Up Modal -->
+    <div class="modal fade" id="signupModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2 class="modal-title" id="myModalLabel">Register <span class="small">and for a limited time get an extra $500!</span></h2>
+          </div>
+          <form role="form" method="post" action="/user/create">
+            <div class="modal-body">
+                <div class="form-group">
+                  <label for="username">Username</label>
+                  <input type="text" class="form-control" name="username" placeholder="Enter username" required="">
+                </div>
+                <div class="form-group">
+                  <label for="email">Email</label>
+                  <input type="email" class="form-control" name="email" placeholder="Enter email" required="">
+                </div>
+                <div class="form-group">
+                  <label for="gender">Gender</label>
+                  <select class="form-control" name="gender">
+                    <option>Male</option>
+                    <option>Female</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="password">Password</label>
+                  <input type="password" class="form-control" id="signupPassword" name="password" placeholder="Enter password" required="">
+                </div>
+                <div class="form-group">
+                  <label for="confirmPassword">Confirm Password</label>
+                  <input type="password" class="form-control" id="signupConfirmPassword" placeholder="Confirm password" required="">
+                </div>
+            </div>
+            <div class="modal-footer">
+              <button id="signupButton" type="submit" class="btn btn-primary" style="display: none;">Create Account</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      // PASSWORD VALIDATION
+      $("#signupConfirmPassword").keyup(function() {
+        var password = $("#signupPassword").val();
+        var confirmPassword = $("#signupConfirmPassword").val();
+        if (password == confirmPassword) {
+           $("#signupButton").show();
+        } else {
+          $("#signupButton").hide();
+        }
+      });
+
+      <%if(user) {%>
+        // NAVBAR JS FOR MEMBERS
+        $(document).ready(function() {
+          $("nav").addClass('navbar-default');
+        });
+
+        // CREATE PLAYER SCRIPT
+        // setInterval(function (){
+        //   $.post(
+        //       '/player/create',
+        //       function() {
+        //         location.reload();
+        //       }
+        //   );
+        // },5000);
+
+        // PLAY GAME SCRIPT
+        // setInterval(function (){
+        //   $.post(
+        //     '/player/play',
+        //     function() {
+        //       location.reload();
+        //     }
+        //   );
+        // },60000);
+      <%}%>
+    </script>
+    
+    </body>
+</html>
