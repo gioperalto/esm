@@ -18,6 +18,7 @@
 			  		<th>Username</th>
 			  		<th>Fame</th>
 			  		<th>Teams</th>
+			  		<th>Friends &nbsp; <span class="label label-danger">Beta</span></th>
 			  	</tr>
 			  </thead>
 			  <tbody>
@@ -27,6 +28,7 @@
 			  		<td><%-managers[i].title%> <%-managers[i].username%></td>
 			  		<td><%-managers[i].fame%></td>
 			  		<td><a href="/member/teams?username=<%-managers[i].username%>" class="btn btn-info btn-sm">View Team</a></td>
+			  		<td><a href="#" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Add Friend</a></td>
 			  	</tr>
 			  	<%}%>
 			  </tbody>
