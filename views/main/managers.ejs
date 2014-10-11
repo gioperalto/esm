@@ -1,0 +1,37 @@
+<section class="member container">
+	<div class="row">
+		<h1>Managers</h1>
+	</div>
+	<div class="row">
+		<!-- Nav tabs -->
+		<ul class="nav nav-tabs" role="tablist">
+		  <li class="active"><a href="#lol" role="tab" data-toggle="tab">League of Legends</a></li>
+		</ul>
+
+		<!-- Tab panes -->
+		<div class="tab-content">
+		  <div class="tab-pane active" id="lol">
+			<table class="table">
+			  <thead>
+			  	<tr>
+			  		<th></th>
+			  		<th>Username</th>
+			  		<th>Fame</th>
+			  		<th>Teams</th>
+			  	</tr>
+			  </thead>
+			  <tbody>
+			  	<%for(var i = 0; i < managers.length; i++) {%>
+			  	<tr>
+			  		<td><img src="<%-managers[i].picture%>" width="25" height="25"></td>
+			  		<td><%-managers[i].title%> <%-managers[i].username%></td>
+			  		<td><%-managers[i].fame%></td>
+			  		<td><a href="/member/teams?username=<%-managers[i].username%>" class="btn btn-info btn-sm">View Team</a></td>
+			  	</tr>
+			  	<%}%>
+			  </tbody>
+			</table>
+		  </div>
+		</div>
+	</div>
+</section>
