@@ -33,6 +33,26 @@ var PlayerManager = {
 		}
 	},
 
+	getWinChance: function(hidden_elo, visible_elo) {
+		var difference = hidden_elo - visible_elo;
+
+		if(difference > 500) {
+			return 49.55957031;
+		} 	else if(difference > 250) {
+			return 46;
+		}	else if(difference > 125) {
+			return 41.378125;
+		} else if(difference > 50) {
+			return 34.44;
+		} else if(difference > 25) {
+			return 26.25;
+		} else if(difference > 10) {
+			return 15;
+		} else {
+			return 0;
+		}
+	},
+
 	createPlayer: function() {
 		// Random player names
 		var fNames = ['Aaron','Adam','Albert','Anthony','Arthur','Benjamin','Billy','Bobby','Brandon','Brian','Bruce',

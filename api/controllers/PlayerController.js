@@ -33,7 +33,7 @@ var PlayerController = {
 
 	// CREATES A RANDOM PLAYER
 	create: function(req, res) {
-		//TODO: Add if necessary
+		PlayerManager.createPlayer();
 	},
 
 	// PURCHASES A PLAYER
@@ -79,7 +79,8 @@ var PlayerController = {
 		var roles 			= ['Top','Mid','Jungle','ADC','Support'],
 			moods			= ['Motivated','Normal','Anxious','Bored','Apathetic'],
 			elo_bump 		= 10,
-			victory 		= false;
+			victory 		= false,
+			mood 			= '';
 
 		// ELO GAINED PER WIN IS BETWEEN 40 - 70
 
@@ -90,7 +91,9 @@ var PlayerController = {
 				console.log('There was a problem finding these players!');
 			} else if(plyrs) {
 				for(var i = 0; i < plyrs.length; i++) {
-					if(3 >= Math.ceil(Math.random() * 5)) {
+					mood = plyrs[i].mood;
+					console.log(PlayerManager.getWinChance(plyrs[i].hidden_elo,plyrs[i].visible_elo));
+					if(50 + PlayerManager.getWinChance(plyrs[i].hidden_elo,plyrs[i].visible_elo) >= Math.ceil(Math.random() * 100)) {
 						// VICTORY
 						victory = true;
 						plyrs[i].rank = PlayerManager.getRank(plyrs[i].visible_elo); // RANK UP
@@ -118,7 +121,7 @@ var PlayerController = {
 					});
 
 					// CREATE LOG OF PLAYER'S GAME
-					Game.create({player_mood: plyrs[i].mood, victory: victory, player_id: plyrs[i].id})
+					Game.create({player_mood: mood, victory: victory, player_id: plyrs[i].id})
 					.exec(function (error, game) {
 						if(error) {
 							console.log('There was an error creating player\'s game log!');
