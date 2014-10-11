@@ -42,7 +42,7 @@
 				  			if(roles.indexOf(players[i].role) == -1){%>
 				  		<td><a class="btn btn-success btn-sm" id="<%-players[i].id%>">Purchase</a></td>
 				  		<%}else{%>
-				  		<td><a class="btn btn-warning btn-sm" id="<%-players[i].id%>">Trade</a></td>
+				  		<td>Your team has a <%-players[i].role%></td>
 				  		<%}
 				  		}%>
 				  	</tr>
@@ -68,10 +68,9 @@
 	          '/player/purchase',
 	          {id: id}
 	      	);
-	      	$(this).parent().parent().fadeOut().location.reload();
+	      	$(this).parent().parent().fadeOut();
+	      	window.location = "/players";
 		}
 	});
-	// TRADE PLAYER SCRIPT
-	
 </script>
 <%}%>
