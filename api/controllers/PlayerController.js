@@ -74,11 +74,6 @@ var PlayerController = {
 		});
 	},
 
-	// TRADES A PLAYER WITH ANOTHER PLAYER
-	trade: function(req, res) {
-		//TODO: Implement trade player logic
-	},
-
 	// PLAYS A GAME FOR PLAYER
 	play: function(req, res) {
 		var roles 			= ['Top','Mid','Jungle','ADC','Support'],
@@ -166,7 +161,8 @@ var PlayerController = {
 		res.view({user: req.session.user, player: player, games: games});
 	},
 
-	read: function(req, res) {
+	// VIEWS OFFERS ON SPECIFIED PLAYER
+	offers: function(req, res) {
 
 	},
 

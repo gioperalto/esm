@@ -64,7 +64,7 @@ var PlayerManager = {
 
 		// Random player images
 		var images = [];
-		for(var i = 1; i < 20; i++) {
+		for(var i = 1; i <= 40; i++) {
 			images.push('/images/player/default' + i + '.png');
 		}
 
