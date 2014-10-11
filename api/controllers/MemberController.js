@@ -18,7 +18,8 @@
 var MemberController = {
 
 	index: function(req, res) {
-		var players = 			[];
+		var players 			= [],
+			manager 			= {};
 
 		Player.find({
 			where: { owner: req.session.user.username },
@@ -35,10 +36,11 @@ var MemberController = {
 	},
 
 	teams: function(req, res) {
-		var players = 			[];
+		var players 			= [],
+			username 			= req.query.username;
 
 		Player.find({
-			where: { owner: req.session.user.username },
+			where: { owner: username },
 			sort: 'visible_elo DESC'
 		}).done(function indexFindPlayers(err, plyrs) {
 			if(err) {
@@ -48,7 +50,16 @@ var MemberController = {
 			}
 		});
 
-		res.view({user: req.session.user, players: players});
+		User.findOneByUsername(username)
+		.done(function teamsFindUser(err, usr) {
+			if(err) {
+				res.redirect('/?error=' + 'There was a problem finding your manager!');
+			} else if(usr) {
+				manager = usr;
+			}
+		});
+
+		res.view({user: req.session.user, players: players, manager: manager});
 	}
 
 };

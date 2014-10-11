@@ -39,6 +39,8 @@ module.exports.routes = {
 
   '/players': 'MainController.players',
 
+  '/managers': 'MainController.managers',
+
   // MEMBER CONTROLLER
 
   '/member': 'MemberController.index'

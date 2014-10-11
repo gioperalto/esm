@@ -91,7 +91,15 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
-            <li><a href="/players"><i class="fa fa-users"></i> Players</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <i class="fa fa-users"></i> Players <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="/players">Players</a></li>
+                <li><a href="/managers">Managers</a></li>
+              </ul>
+            </li>
             <li><a href="#"><i class="fa fa-star"></i> Hall of Fame</a></li>
             <%if(user){%>
             <li><a href="#"><i class="fa fa-sitemap"></i> Compete</a></li>
@@ -103,7 +111,7 @@
               <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%-user.username%> <span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
                 <li><a href="#">Profile</a></li>
-                <li><a href="/member/teams">My Teams</a></li>
+                <li><a href="/member/teams?username=<%-user.username%>">My Teams</a></li>
                 <li class="divider"></li>
                 <li><a href="/user/logout">Log Out</a><li>
               </ul>
@@ -204,7 +212,7 @@
       }          
 
       // ERROR NOTIFICATIONS
-      if($.param('error')) {
+      if(getUrlParameter('error')) {
         $("nav").parent().prepend('<div class="alert alert-danger" role="alert" style="margin-bottom:0;">' 
           + '<strong>Error!</strong> ' + getUrlParameter('error').replace(/%20/g," ") + '</div>');
         $(".alert.alert-danger").fadeOut(3000);

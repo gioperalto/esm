@@ -32,7 +32,7 @@ var MainController = {
 
 	players: function(req, res) {
 		var players 			= [],
-			roles 			= [],
+			roles 				= [],
 			owner 				= '',
 			money 				= 0;
 
@@ -51,7 +51,9 @@ var MainController = {
 				if(err) {
 					res.redirect('/?error=' + 'There was a problem finding your player roles!');
 				} else if(rls) {
-					roles.push(rls.role);
+					for(var i = 0; i < rls.length; i++) {
+						roles.push(rls[i].role);
+					}
 				}
 			});
 		}
@@ -69,7 +71,25 @@ var MainController = {
 			}
 		});
 
-		res.view({user: req.session.user,players: players, money: money, roles: roles});
+		res.view({user: req.session.user, players: players, money: money, roles: roles});
+	},
+
+	managers: function(req, res) {
+		var managers 			= [];
+
+		User.find({
+			sort: 'fame DESC'
+		}).done(function managersFindUsers(err, mgrs) {
+			if(err) {
+				res.redirect('/?error=' + 'There was a problem accessing our managers!');
+			} else if(mgrs) {
+				managers = mgrs;
+			} else {
+				res.redirect('/?error=' + 'We couldn\'t find our managers!');
+			}
+		});
+
+		res.view({user: req.session.user, managers: managers});
 	},
 
 	retired: function(req, res) {
