@@ -28,7 +28,9 @@
 			  		<td><%-managers[i].title%> <%-managers[i].username%></td>
 			  		<td><%-managers[i].fame%></td>
 			  		<td><a href="/member/teams?username=<%-managers[i].username%>" class="btn btn-info btn-sm">View Team</a></td>
+			  		<%if(user.username !== managers[i].username){%>
 			  		<td><a href="#" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Add Friend</a></td>
+			  		<%}%>
 			  	</tr>
 			  	<%}%>
 			  </tbody>

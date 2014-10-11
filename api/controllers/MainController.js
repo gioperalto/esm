@@ -27,6 +27,15 @@ var MainController = {
 		// DELETE ALL GAMES
 		// Game.destroy()
 		// .exec(function (err){});
+
+		// SHOW ALL PLAYERS
+		// Player.find()
+		// .done(function(err,plyr) {
+		// 	if(plyr) {
+		// 		console.log(plyr);
+		// 	}
+		// });
+
 		res.view({user: req.session.user});
 	},
 
