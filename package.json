@@ -1,21 +1,23 @@
 {
-    "name": "ESports",
-    "private": true,
-    "version": "0.0.0",
-    "description": "a Sails application",
-    "dependencies": {
-        "sails": "0.9.16",
-        "grunt": "0.4.1",
-        "sails-disk": "~0.9.0",
-        "ejs": "0.8.4",
-        "optimist": "0.3.4"
-    },
-    "scripts": {
-        "start": "node app.js",
-        "debug": "node debug app.js"
-    },
-    "main": "app.js",
-    "repository": "",
-    "author": "",
-    "license": ""
+  "name": "StoryCrush",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Imagine being able to read unique, and high quality, stories the way they were meant to be seen. StoryCrush brings power to both the reader and the author. Our platform is designed in a way that our readers can fall in love with our content and our authors can easily deliver stories that shine. After encountering the StoryCrush experience, you'll fall in love.",
+  "dependencies": {
+    "ejs": "0.8.4",
+    "grunt": "0.4.1",
+    "optimist": "0.3.4",
+    "sails": "0.9.16",
+    "sails-disk": "~0.9.0",
+    "skipper": "^0.5.3",
+    "newrelic":"1.11.5"
+  },
+  "scripts": {
+    "start": "node app.js",
+    "debug": "node debug app.js"
+  },
+  "main": "app.js",
+  "repository": "",
+  "author": "Gio Peralto-Pritchard",
+  "license": ""
 }
