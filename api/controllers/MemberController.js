@@ -37,6 +37,7 @@ var MemberController = {
 
 	teams: function(req, res) {
 		var players 			= [],
+			roles 				= [],
 			username 			= req.query.username;
 
 		Player.find({
@@ -50,6 +51,17 @@ var MemberController = {
 			}
 		});
 
+		Player.findByOwner(req.session.user.username)
+		.done(function playersFindRoles(err, rls) {
+			if(err) {
+				res.redirect('/?error=' + 'There was a problem finding your player roles!');
+			} else if(rls) {
+				for(var i = 0; i < rls.length; i++) {
+					roles.push(rls[i].role);
+				}
+			}
+		});
+
 		User.findOneByUsername(username)
 		.done(function teamsFindUser(err, usr) {
 			if(err) {
@@ -59,7 +71,7 @@ var MemberController = {
 			}
 		});
 
-		res.view({user: req.session.user, players: players, manager: manager});
+		res.view({user: req.session.user, players: players, manager: manager, roles: roles});
 	}
 
 };

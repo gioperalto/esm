@@ -135,6 +135,42 @@ var PlayerController = {
 		});
 	},
 
+	// SELLS PLAYER FOR HALF OF WORTH
+	sell: function(req, res) {
+		var id 			= req.param('id');
+
+		Player.findOneById(id)
+		.done(function sellFindPlayer(err, plyr) {
+			if(err) {
+				res.redirect('/?error=' + 'We couldn\'t find your player!');
+			} else if(plyr) {
+				User.findOneByUsername(plyr.owner)
+				.done(function sellFindOwner(error, user) {
+					if(error) {
+						res.redirect('/?error' + 'We couldn\'t find your player\'s owner!');
+					} else if(user) {
+						user.money += (plyr.value/2);
+						user.save(function (err) {
+							if(err) {
+								res.redirect('/?error=' + 'We couldn\'t sell your player!');
+							} else {
+								console.log('Player sold!');
+							}
+						});
+					}
+				});
+				plyr.owner = '';
+				plyr.save(function (error) {
+					if(error) {
+						res.redirect('We couldn\'t change ownership of your player!');
+					} else {
+						console.log('Player contract terminated!');
+					}
+				});
+			}
+		});
+	},
+
 	// VIEWS HISTORY OF SPECIFIED PLAYER
 	history: function(req, res) {
 		var id 			= req.query.id,
@@ -166,7 +202,29 @@ var PlayerController = {
 
 	// VIEWS OFFERS ON SPECIFIED PLAYER
 	offers: function(req, res) {
+		var id 			= req.query.id,
+			player 		= {},
+			offers 		= [];
 
+		Player.findOneById(id)
+		.done(function historyFindPlayer(err, plyr) {
+			if(err) {
+				res.redirect('/?error=' + 'We couldn\'t find your player!');
+			} else if(plyr) {
+				player = plyr;
+			}
+		});
+
+		Offer.findByPlayer_id(id)
+		.done(function offersFindOffer(err, offs) {
+			if(err) {
+				res.redirect('/?error=' + 'We couldn\'t find offers on this player!');
+			} else if(offs) {
+				offers = offs;
+			}
+		});
+
+		res.view({user: req.session.user, player: player, offers: offers});
 	},
 
 	retire: function(req, res) {

@@ -3,3 +3,7 @@ h1.history-header{
 	padding-bottom: 25px;
 	vertical-align: middle;
 }
+
+.navbar-default {
+	background: #ecf0f1;
+}

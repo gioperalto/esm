@@ -26,7 +26,7 @@
 			  		<th>Rank</th>
 			  		<th>Mood</th>
 			  		<th>Age</th>
-			  		<th>Cost/mo.</th>
+			  		<th>Cost</th>
 			  		<th>Match History</th>
 			  		<th>Offers &nbsp; <span class="label label-danger">Beta</span></th>
 			  	</tr>
@@ -43,7 +43,7 @@
 			  		<td><%-players[i].age%></td>
 			  		<td>$<%-players[i].value%></td>
 			  		<td><a href="/player/history?id=<%-players[i].id%>" class="btn btn-info btn-sm">View History</a></td>
-					<td><a class="btn btn-warning btn-sm">View Offers</a></td>
+					<td><a href="/player/offers?id=<%-players[i].id%>" class="btn btn-warning btn-sm">View Offers</a></td>
 			  	</tr>
 			  	<%}%>
 			  </tbody>

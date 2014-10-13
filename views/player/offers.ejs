@@ -1,0 +1,69 @@
+<section class="history container">
+	<div class="row">
+		<h1 class="history-header">
+			<img class="pull-left" src="<%-player.picture%>" width="50" height="50">
+			&nbsp;
+			<%-player.name%>
+		</h1>
+	</div>
+	<div class="row">
+		<h1>Offers</h1>
+	</div>
+	<div class="row">
+		<!-- Nav tabs -->
+		<ul class="nav nav-tabs" role="tablist">
+		  <li class="active"><a href="#lol" role="tab" data-toggle="tab">League of Legends (<%-offers.length%>)</a></li>
+		</ul>
+
+		<!-- Tab panes -->
+		<div class="tab-content">
+		  <div class="tab-pane active" id="lol">
+			<table class="table">
+			  <thead>
+			  	<tr>
+			  		<th>Offerer</th>
+			  		<th>Amount</th>
+			  		<th>Date of offer</th>
+			  		<th>Actions</th>
+			  	</tr>
+			  </thead>
+			  <tbody>
+			  	<%for(var i = 0; i < offers.length; i++) {%>
+			  	<tr>
+			  		<td><a href="/member/teams?username=<%-offers[i].offerer%>"><%-offers[i].offerer%></td>
+			  		<td>$<%-offers[i].amount%></td>
+			  		<td><%-new Date(offers[i].createdAt)%></td>
+			  		<td>
+			  			<a class="btn btn-success btn-sm" id="<%-offers[i].id%>">Accept</a>
+			  			&nbsp;
+			  			<a class="btn btn-danger btn-sm" id="<%-offers[i].id%>">Decline</a>
+			  		</td>
+			  	</tr>
+			  	<%}%>
+			  </tbody>
+			</table>
+		  </div>
+		</div>
+	</div>
+</section>
+<!-- SCRIPTS -->
+<script type="text/javascript">
+	// APPROVE SCRIPT
+	$(".btn.btn-success.btn-sm").click(function() {
+		var id 			= $(this).attr('id');
+		$.post(
+			'/offer/accept',
+			{id: id}
+		);
+		window.location = '/member';
+	});
+	// DECLINE SCRIPT
+	$(".btn.btn-danger.btn-sm").click(function() {
+		var id 			= $(this).attr('id');
+		$.post(
+			'/offer/decline',
+			{id: id}
+		);
+		location.reload();
+	});
+</script>
