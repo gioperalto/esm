@@ -7,6 +7,7 @@
 	<div class="row">
 		<h1>My Team</h1>
 	</div>
+	<% var team_elo = 0;%>
 	<div class="row">
 		<!-- Nav tabs -->
 		<ul class="nav nav-tabs" role="tablist">
@@ -32,7 +33,8 @@
 			  	</tr>
 			  </thead>
 			  <tbody>
-			  	<%for(var i = 0; i < players.length; i++) {%>
+			  	<%for(var i = 0; i < players.length; i++) {
+			  		team_elo += players[i].visible_elo;%>
 			  	<tr>
 			  		<td><img src="<%-players[i].picture%>" width="25" height="25"></td>
 			  		<td><%-players[i].name%></td>
@@ -50,5 +52,8 @@
 			</table>
 		  </div>
 		</div>
+	</div>
+	<div class="row">
+		<h3>Team ELO: <%-team_elo%></h3>
 	</div>
 </section>
