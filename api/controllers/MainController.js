@@ -75,6 +75,7 @@ var MainController = {
 				res.redirect('/?error=' + 'There was an error accessing our players!');
 			} else if(plyrs) {
 				players = plyrs;
+				// console.log(plyrs);
 			} else {
 				res.redirect('/?error=' + 'We couldn\'t find our players!');
 			}

@@ -4,6 +4,8 @@
 			<img class="pull-left" src="<%-player.picture%>" width="50" height="50">
 			&nbsp;
 			<%-player.name%>
+			&nbsp;
+			<a class="btn btn-warning btn-sm">Sell for $<%-Math.floor(player.value/2)%></a>
 		</h1>
 	</div>
 	<div class="row">
@@ -65,5 +67,13 @@
 			{id: id}
 		);
 		location.reload();
+	});
+	// SELL SCRIPT
+	$(".btn.btn-warning.btn-sm").click(function() {
+		$.post(
+			'/player/sell',
+			{id: <%-player.id%>}
+		);
+		window.location = '/member';
 	});
 </script>
