@@ -15,12 +15,12 @@ module.exports = {
   		required: true
   	},
 
-  	manager: {
+  	player_id: {
   		type: 'string',
   		required: true
   	},
 
-  	owner: {
+  	offerer: {
   		type: 'string',
   		required: true
   	}

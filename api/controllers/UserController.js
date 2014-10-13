@@ -25,12 +25,16 @@ var UserController = {
 
 		var amount = 50;
 
-		User.findOneByEmail(email)
-		.done(function createFindUser(err, usr) {
+		User.findOne({
+			or: [
+				{ username: username },
+				{ email: email }
+			]
+		}).done(function createFindUser(err, usr) {
 			if(err) {
 				res.redirect('/?error=' + 'There was an error creating your account!');
 			} else if(usr) {
-				res.redirect('/?error=' + 'That email is already in use!');
+				res.redirect('/?error=' + 'Email or username is already in use!');
 			} else {
 				var hasher = require("password-hash");
 	    		password = hasher.generate(password);
