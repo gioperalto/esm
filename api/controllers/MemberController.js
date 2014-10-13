@@ -29,6 +29,7 @@ var MemberController = {
 				res.redirect('/?error=' + 'There was a problem finding your players!');
 			} else if(plyrs) {
 				players = plyrs;
+				// console.log(plyrs);
 			}
 		});
 
