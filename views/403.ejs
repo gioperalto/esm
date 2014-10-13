@@ -34,37 +34,47 @@
 <html>
   <head>
     <title><%-title%></title>
-    
+    <!-- Foundation -->
+    <link rel="stylesheet" type="text/css" href="/styles/plugins/bootstrap.css">
+    <!-- Font-Awesome -->
+    <link rel="stylesheet" type="text/css" href="/styles/plugins/font-awesome/css/font-awesome.css">
+    <!-- Overrides -->
+    <link rel="stylesheet" type="text/css" href="/styles/forbidden.css">
+     <!-- jQuery -->
+    <script type="text/javascript" src="/js/plugins/jquery.js"></script>
   </head>
   <body>
-
-    <section class="page">
-      <div class="ocean">
-        <img class="fishy" src="http://sailsjs.com/images/image_devInTub.png">
-      </div>
-
-      <div class="main">
-        <h1>
-          Forbidden
-        </h1>
-        <h2> 
-          <% if (typeof message !== 'undefined') { %>
-          <%= message %>
-          <% } else { %>
-          You don't have permission to see the page you're trying to reach.
-          <% } %>
-        </h2>
-        <p class="help">
-          <a href="http://en.wikipedia.org/wiki/HTTP_403">Why</a> might this be happening?
-        </p>
-      </div>
-        
-      <div class="logo">
-        <a href="http://sailsjs.org">
-          <img src="http://sailsjs.org/images/logo.png">
-        </a>
-      </div>
+    <section class="forbidden">
+      <form class="form-horizontal" role="form" method="post" action="/user/login">
+        <div class="form-group">
+          <center><strong>E-Sports</strong> <i class="fa fa-trophy fa-2x"></i> <strong>Manager</strong></center>
+        </div>
+        <div class="form-group">
+          <h2 style="text-align: center;">
+            Please log in to continue.
+          </h2>
+        </div>
+        <div class="form-group">
+          <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
+          <div class="col-sm-10">
+            <input type="email" class="form-control" name="email" placeholder="Email" required="">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
+          <div class="col-sm-10">
+            <input type="password" class="form-control" name="password" placeholder="Password" required="">
+          </div>
+        </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-default">Sign in</button>
+            &nbsp;
+            <a href="/">I wanna go home!</a>
+          </div>
+        </div>
+      </form>
     </section>
-
   </body>
 </html>
