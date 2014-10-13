@@ -1,0 +1,22 @@
+header#header.header {
+	background-image: url('/images/background/admin-default.jpg');
+}
+
+.header .main-nav .nav .nav-item a {
+	color:#999;
+}
+
+.menu {
+	padding: 10px;
+	margin: 15px;
+	background-color: #fff;
+}
+
+.valign {
+	vertical-align: middle !important;
+}
+
+.feature {
+	text-transform: uppercase;
+	color: #BB3B2F !important;
+}
