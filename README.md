@@ -1,2 +1,2 @@
-# StoryCrush
-### Imagine being able to read unique, and high quality, stories the way they were meant to be seen. StoryCrush brings power to both the reader and the author. Our platform is designed in a way that our readers can fall in love with our content and our authors can easily deliver stories that shine. After encountering the StoryCrush experience, you'll fall in love.
+# E-Sports Manager
+### E-Sports Manager is a web application
