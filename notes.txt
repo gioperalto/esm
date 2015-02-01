@@ -4,9 +4,9 @@ Add 5 players per account created #done
 retire players at age of 35
 players age 1 year a week
 user profile
-make it available online (put the site up lol)
+make it available online (put the site up lol) #done
 graph that shows elo gained and lost past month
-player profiles that show the graph and match history
+player profiles that show the graph and match history #done
 add friend button, make it like facebook style lol i guess, showing their team #that can wait
 add forums #that can wait
 make tournaments that let you enter them and then see results at midnight
