@@ -22,6 +22,7 @@ var analystSchema = new Schema({
     type: Number,
     required: true
   },
+  education: String,
   story: String,
   created_at: Date,
   modified_at: Date
