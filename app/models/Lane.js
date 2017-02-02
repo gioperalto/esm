@@ -1,22 +1,21 @@
-// app/models/Race.js
+// app/models/Lane.js
 
 // grab the things we need
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 // create a schema
-var raceSchema = new Schema({
+var laneSchema = new Schema({
   name: {
-    type: String, 
-    required: true, 
-    unique: true
+    type: String,
+    required: true
   },
   created_at: Date,
   modified_at: Date
 });
 
 // on every save, add the date
-raceSchema.pre('save', function(next) {
+laneSchema.pre('save', function(next) {
   // get the current date
   var currentDate = new Date();
   
@@ -30,7 +29,7 @@ raceSchema.pre('save', function(next) {
   next();
 });
 
-var Race = mongoose.model('Race', raceSchema);
+var Lane = mongoose.model('Lane', laneSchema);
 
 // make this available to our users in our Node applications
-module.exports = Race;
+module.exports = Lane;
