@@ -1,0 +1,13 @@
+/* Theme 1 */
+
+.parallax-container {
+  height: 380px;
+}
+
+.overlay {
+  background-color: rgba(0,0,0,0.6);
+}
+
+.icon-block .material-icons {
+  font-size: inherit;
+}
