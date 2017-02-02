@@ -11,14 +11,15 @@ var userSchema = new Schema({
   email: String,
   password: String,
   dob: Date,
-  experience: {
+  coin: {
     type: Number,
-    default: 0
+    default: 25
   },
-  rank: {
+  players: [{
     type: Schema.Types.ObjectId,
-    ref: 'Rank'
-  },
+    ref: 'Player'
+  }],
+  last_login: Date,
   created_at: Date,
   modified_at: Date
 });
@@ -28,8 +29,8 @@ userSchema.pre('save', function(next) {
   // get the current date
   var currentDate = new Date();
   
-  // change the updated_at field to current date
-  this.updated_at = currentDate;
+  // change the modified_at field to current date
+  this.modified_at = currentDate;
 
   // if created_at doesn't exist, add to that field
   if (!this.created_at)

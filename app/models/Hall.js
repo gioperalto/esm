@@ -1,28 +1,26 @@
-// app/models/Rank.js
+// app/models/Hall.js
+// Hall of Fame
 
 // grab the things we need
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 // create a schema
-var rankSchema = new Schema({
-  name: {
-    type: String, 
-    required: true, 
-    unique: true
+var hallSchema = new Schema({
+  player: {
+    type: Schema.Types.ObjectId,
+    ref: 'Player'
   },
-  threshold: {
-    type: Number,
-    required: true
-  },
-  description: String,
-  image: String,
+  seasons_won: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Season'
+  }],
   created_at: Date,
   modified_at: Date
 });
 
 // on every save, add the date
-rankSchema.pre('save', function(next) {
+hallSchema.pre('save', function(next) {
   // get the current date
   var currentDate = new Date();
   
@@ -36,7 +34,7 @@ rankSchema.pre('save', function(next) {
   next();
 });
 
-var Rank = mongoose.model('Rank', rankSchema);
+var Hall = mongoose.model('Hall', hallSchema);
 
 // make this available to our users in our Node applications
-module.exports = Rank;
+module.exports = Hall;
