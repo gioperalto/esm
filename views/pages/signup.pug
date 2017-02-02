@@ -1,0 +1,22 @@
+include ../partials/header.pug
+body
+  include ../partials/navbar.pug
+  div.container.row
+    h3.center Signup
+    form.col.s12(method='post' action='/signup')
+      div.row
+        div.col.s6
+          label(for='email') Email
+          input(placeholder='rogueone@gmail.com' name='email' type='text' required)
+        div.col.s6
+          label(for='password') Password
+          input(name='password' type='password' required)
+        div.col.s6
+          label(for='dob') Date of Birth
+          input(name='dob' type='date' required)
+        div.col.s6
+          label(for='matchPassword') Confirm Password
+          input(name='matchPassword' type='password' required)
+      div.row
+        div.input-field.col.s6
+          input(type='submit' value='Signup').btn
