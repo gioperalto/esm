@@ -11,6 +11,10 @@ var tournamentSchema = new Schema({
     required: true
   },
   prizes: [Number],
+  winners: [{
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  }],
   entry_fee: {
     type: Number,
     required: true
