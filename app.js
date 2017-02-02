@@ -5,15 +5,16 @@
 // ---------------------------------------------------------
 
 // Declare variables
-var express = require('express');
-var app = express();
-var mongoose = require('mongoose');
-var passport = require('passport');
+var express      = require('express');
+var app          = express();
+var mongoose     = require('mongoose');
+var passport     = require('passport');
 var cookieParser = require('cookie-parser');
 var bodyParser   = require('body-parser');
 var session      = require('express-session');
-var configDB = require('./config/database.js');
-var port     = process.env.PORT || 1337;
+var configDB     = require('./config/database.js');
+var seed         = require('/.seed.js');
+var port         = process.env.PORT || 1337;
 
 // Allow Express to serve static files in "public" directory
 app.use(express.static('public'));

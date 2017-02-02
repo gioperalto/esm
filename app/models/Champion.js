@@ -15,13 +15,9 @@ var championSchema = new Schema({
     required: true
   },
   lanes: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Lane'
+    lane: String,
+    tier: String
   }],
-  tier: {
-    type: String,
-    required: true
-  },
   created_at: Date,
   modified_at: Date
 });
