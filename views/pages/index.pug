@@ -1,0 +1,45 @@
+include ../partials/header.pug
+body#home
+  include ../partials/navbar.pug
+  div.parallax-container.overlay
+    div.section.no-pad-bot
+      div.container
+        h1.header.center.white-text Team Dungeons
+      div.row.center
+        h5.header.col.s12.light.white-text.
+          Join friends and strangers on adventures that will test your luck, skill and determination.
+      div.row.center
+        a(href='/signup').btn-large.deep-orange Create an account
+    div.parallax
+      img(src='/assets/images/static/home.jpg')
+  div.section.white
+    div.row.container
+      div.col.s12.m4
+        div.icon-block
+          h2.center
+            i.material-icons open_with
+          h5.center.
+            Real-Time
+          p.light.center.
+            We built this with the capability to recreate the full experience of playing Dungeons & Dragons with your friends.  
+      div.col.s12.m4
+        div.icon-block
+          h2.center
+            i.material-icons store
+          h5.center.
+            Freemium
+          p.light.center.
+            It's free to play! We've also included a lot of cool features that our premium members can capitalize on.
+      div.col.s12.m4
+        div.icon-block
+          h2.center
+            i.material-icons new_releases
+          h5.center.
+            Rapid Releases
+          p.light.center.
+            New features are interwoven seamlessly and frequently. Our scalable architecture allows us to keep making the game better.
+  div.parallax-container.overlay
+    div.parallax
+      img(src='/assets/images/static/home-2.jpg')
+
+  script(src='/assets/js/scripts/init-parallax.js')
