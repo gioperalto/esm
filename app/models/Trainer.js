@@ -1,11 +1,11 @@
-// app/models/Coach.js
+// app/models/Trainer.js
 
 // grab the things we need
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 // create a schema
-var coachSchema = new Schema({
+var trainerSchema = new Schema({
   first_name: {
     type: String,
     required: true
@@ -32,7 +32,7 @@ var coachSchema = new Schema({
 });
 
 // on every save, add the date
-coachSchema.pre('save', function(next) {
+trainerSchema.pre('save', function(next) {
   // get the current date
   var currentDate = new Date();
   
@@ -46,7 +46,7 @@ coachSchema.pre('save', function(next) {
   next();
 });
 
-var Coach = mongoose.model('Coach', coachSchema);
+var Trainer = mongoose.model('Trainer', trainerSchema);
 
 // make this available to our users in our Node applications
-module.exports = Coach;
+module.exports = Trainer;
