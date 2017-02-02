@@ -1,15 +1,11 @@
-// app/models/Player.js
+// app/models/Coach.js
 
 // grab the things we need
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 // create a schema
-var playerSchema = new Schema({
-  username: {
-    type: String,
-    required: true
-  },
+var coachSchema = new Schema({
   first_name: {
     type: String,
     required: true
@@ -18,27 +14,17 @@ var playerSchema = new Schema({
     type: String,
     required: true
   },
-  nickname: {
-    type: String,
-    default: ''
-  },
-  experience: {
+  cost: {
     type: Number,
-    default: 0
+    required: true
   },
-  champions: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Champion'
-  }],
-  age: Number,
-  retired: Boolean,
-  wins: {
+  depth: {
     type: Number,
-    default: 0
+    required: true
   },
-  losses: {
+  chance: {
     type: Number,
-    default: 0
+    required: true
   },
   story: String,
   created_at: Date,
@@ -46,7 +32,7 @@ var playerSchema = new Schema({
 });
 
 // on every save, add the date
-playerSchema.pre('save', function(next) {
+coachSchema.pre('save', function(next) {
   // get the current date
   var currentDate = new Date();
   
@@ -54,15 +40,13 @@ playerSchema.pre('save', function(next) {
   this.updated_at = currentDate;
 
   // if created_at doesn't exist, add to that field
-  if (!this.created_at) {
-    // TODO: set age
+  if (!this.created_at)
     this.created_at = currentDate;
-  }
 
   next();
 });
 
-var Player = mongoose.model('Player', playerSchema);
+var Coach = mongoose.model('Coach', coachSchema);
 
 // make this available to our users in our Node applications
-module.exports = Player;
+module.exports = Coach;
