@@ -12,8 +12,8 @@ var passport     = require('passport');
 var cookieParser = require('cookie-parser');
 var bodyParser   = require('body-parser');
 var session      = require('express-session');
-var configDB     = require('./config/database.js');
-var seed         = require('/.seed.js');
+var configDB     = require('./config/database');
+var seed         = require('/.seed');
 var port         = process.env.PORT || 1337;
 
 // Allow Express to serve static files in "public" directory
@@ -44,6 +44,7 @@ app.use(passport.session()); // persistent login sessions
 // Database configurations
 // ---------------------------------------------------------
 mongoose.connect(configDB.url);
+seed.seedDB();
 
 // ---------------------------------------------------------
 // Routes
