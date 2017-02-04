@@ -31,7 +31,10 @@ var playerSchema = new Schema({
     ref: 'Champion'
   }],
   age: Number,
-  retired: Boolean,
+  retired: {
+    type: Boolean,
+    default: false
+  },
   wins: {
     type: Number,
     default: 0
