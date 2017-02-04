@@ -81,34 +81,34 @@ module.exports = {
 
     async.waterfall([
       function(callback) {
-        seedItems(
+        module.exports.seedItems(
           seeds.seedValues.analysts,
           Analyst,
-          seedAnalyst,
+          module.exports.seedAnalyst,
           callback
         );
       },
       function(callback) {
-        seedItems(
+        module.exports.seedItems(
           seeds.seedValues.trainers,
           Trainer,
-          seedTrainer,
+          module.exports.seedTrainer,
           callback
         );
       },
       function(callback) {
-        seedItems(
+        module.exports.seedItems(
           seeds.seedValues.champions,
           Champion,
-          seedChampion,
+          module.exports.seedChampion,
           callback
         );
       },
       function(callback) {
-        seedItems(
+        module.exports.seedItems(
           seeds.seedValues.moods,
           Mood,
-          seedMood,
+          module.exports.seedMood,
           callback
         );
       }

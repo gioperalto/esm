@@ -13,7 +13,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser   = require('body-parser');
 var session      = require('express-session');
 var configDB     = require('./config/database');
-var seed         = require('/.seed');
+var seed         = require('./seed');
 var port         = process.env.PORT || 1337;
 
 // Allow Express to serve static files in "public" directory
