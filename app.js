@@ -47,10 +47,15 @@ mongoose.connect(configDB.url);
 seed.seedDB();
 
 // ---------------------------------------------------------
+// API Endpoints
+// ---------------------------------------------------------
+require('./config/api-endpoints')(app);
+
+// ---------------------------------------------------------
 // Routes
 // ---------------------------------------------------------
-require('./config/routes.js')(app);
-require('./config/admin-routes.js')(app, passport);
+require('./config/routes')(app);
+require('./config/admin-routes')(app, passport);
 
 // ---------------------------------------------------------
 // Launch
