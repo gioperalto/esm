@@ -17,15 +17,6 @@ module.exports = function(app) {
 
   app.get('/api/player/create', function(req, res) {
     PlayerController.createPlayer(function(player, err) {
-      // Champions to be added to player
-      // var champ_count = Math.ceil(Math.random() * 3) + 2;
-      // var champs = [];
-
-      // for(var i = 0; i < champ_count; i++) {
-      //   ChampionController.getRandomChampion(function(champion, err) {
-      //     champs.push(champion);
-      //   });
-      // }
       res.status(200).json(player);
     });
   });
@@ -43,6 +34,12 @@ module.exports = function(app) {
   app.get('/api/champion/random', function(req, res) {
     ChampionController.getRandomChampion(function(champion, err) {
       res.status(200).json(champion);
+    });
+  });
+
+  app.get('/api/champions/random', function(req, res) {
+    ChampionController.getRandomChampions(function(champions, err) {
+      res.status(200).json(champions);
     });
   });
 
