@@ -24,6 +24,10 @@ var rosterSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Mood'
   },
+  active: {
+    type: Boolean,
+    default: true
+  },
   real_elo: {
     type: Number,
     required: true

@@ -50,8 +50,17 @@ var playerSchema = new Schema({
 // METHODS =============================
 // =====================================
 
-playerSchema.virtual('fullName').get(function () {
+playerSchema.virtual('fullName').get(function() {
   return this.name.first + ' ' + this.name.last;
+});
+
+playerSchema.virtual('seniority').get(function() {
+  return this.experience == 1 
+    ?
+      this.experience + ' year'
+    :
+      this.experience + ' years'
+    ;
 });
 
 // on every save, add the date
