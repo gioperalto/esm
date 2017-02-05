@@ -9,7 +9,7 @@ module.exports = function(app) {
   // Home page
   // =====================================
   app.get('/', function(req, res) {
-  	res.render('pages/index', {
+  	res.render('pages', {
   		title: 'Home'
   	});
   });
@@ -27,13 +27,23 @@ module.exports = function(app) {
   });
 
   // =====================================
-  // Players page
+  // Players
   // =====================================
   app.get('/players', function(req, res) {
     PlayerController.getPlayers(function(players, err) {
       res.render('pages/players', {
         title: 'Players',
         players: players
+      });
+    });
+  });
+  app.get('/players/:id', function(req, res) {
+    var id = req.params.id;
+
+    PlayerController.getPlayerById(id, function(player, err) {
+      res.render('pages/players/view', {
+        title: 'View Player',
+        player: player
       });
     });
   });
