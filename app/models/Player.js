@@ -10,17 +10,15 @@ var playerSchema = new Schema({
     type: String,
     required: true
   },
-  first_name: {
-    type: String,
-    required: true
-  },
-  last_name: {
-    type: String,
-    required: true
-  },
-  nickname: {
-    type: String,
-    default: ''
+  name: {
+    first: {
+      type: String,
+      required: true
+    },
+    last: {
+      type: String,
+      required: true
+    }
   },
   experience: {
     type: Number,
@@ -46,6 +44,14 @@ var playerSchema = new Schema({
   story: String,
   created_at: Date,
   modified_at: Date
+});
+
+// =====================================
+// METHODS =============================
+// =====================================
+
+playerSchema.virtual('fullName').get(function () {
+
 });
 
 // on every save, add the date

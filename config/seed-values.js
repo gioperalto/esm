@@ -3,32 +3,40 @@ module.exports = {
   seedValues: {
     analysts: [
       {
-        first_name: 'Joanna',
-        last_name: 'Isadoa',
+        name: {
+          first: 'Joanna',
+          last: 'Isadoa'
+        },
         cost: 1000,
         depth: 5,
         education: 'PhD in Economics from Harvard',
         story: 'Joanna graduated at the top of her class, became an absolute star in the financial industry. She later landed a position on the board of Goldman Sachs.'
       },
       {
-        first_name: 'Matsuchi',
-        last_name: 'Miamori',
+        name: {
+          first: 'Matsuchi',
+          last: 'Miamori'
+        },
         cost: 750,
         depth: 4,
         education: 'MS, Computer Science, Tokyo University',
         story: 'Not to be mistaken for the Iron Chef, Matsuchi has a infinite breadth of financial experience.'
       },
       {
-        first_name: 'Billiam',
-        last_name: 'Yates',
+        name: {
+          first: 'Billiam',
+          last: 'Yates'
+        },
         cost: 500,
         depth: 2,
         education: 'BA, Boston College',
         story: 'Most students graduate college in debt. Bill, however, made enough money to pay for college from the stock market. Now he is on to bigger and better things.'
       },
       {
-        first_name: 'Joey',
-        last_name: 'Doodab',
+        name: {
+          first: 'Joey',
+          last: 'Doodab'
+        },
         cost: 250,
         depth: 1,
         education: 'Currently in High School',
@@ -37,32 +45,40 @@ module.exports = {
     ],
     trainers: [
       {
-        first_name: 'Miranda',
-        last_name: 'Wallard',
+        name: {
+          first: 'Miranda',
+          last: 'Wallard'
+        },
         cost: 100,
         depth: 2,
         chance: 80,
         story: 'Miranda is the best of the best. She frequently doles out priceless life lessons to some of the most iconic figures in humanity.'
       },
       {
-        first_name: 'Jay',
-        last_name: 'Lopez',
+        name: {
+          first: 'Jay',
+          last: 'Lopez'
+        },
         cost: 50,
         depth: 1,
         chance: 40,
         story: 'Claims to be the long lost brother of the popular Tai Lopez. His advice has also helped a few famous athletes go a long way.'
       },
       {
-        first_name: 'Leroy',
-        last_name: 'Johnson',
+        name: {
+          first: 'Leroy',
+          last: 'Johnson'
+        },
         cost: 25,
         depth: 1,
         chance: 20,
         story: 'Leroy is a fairly well-known life coach at the company he works for. In his spare time he helps those in need find their purpose.'
       },
       {
-        first_name: 'Ashley',
-        last_name: 'Burtham',
+        name: {
+          first: 'Ashley',
+          last: 'Burtham'
+        },
         cost: 10,
         depth: 1,
         chance: 10,
