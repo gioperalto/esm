@@ -1,0 +1,30 @@
+include ../../partials/header.pug
+body
+  include ../../partials/navbar.pug
+  div.section.white
+    div.container
+      h5.header.center Active Players
+      table.responsive-table
+        thead
+          tr
+            th(data-field='username').strong Username
+            th(data-field='name') Name
+            th(data-field='age') Age
+            th(data-field='wins') Wins
+            th(data-field='losses') Losses
+            th(data-field='actions') Actions
+          tbody
+            each player in players
+              tr
+                td= player.username
+                td= player.fullName
+                td= player.age
+                td= player.wins
+                td= player.losses
+                td
+                  a(href='/players/'+player.id).btn.deep-orange View
+  div.parallax-container.overlay
+    div.parallax
+      img(src='/assets/images/static/home-2.jpg')
+
+  script(src='/assets/js/scripts/init-parallax.js')

@@ -3,14 +3,14 @@ nav.black
     a.brand-logo.center(href='/')
       img(src='/assets/images/logos/logo.png' height='64px')
     ul#nav-mobile.right.hide-hide-on-med-and-down
+      li
+          a(href='/players') Players
       if user
         li
           a(href='/dashboard') Dashboard
         li
           a(href='/logout') Logout
       else
-        li
-          a(href='/')
         li
           a(href='/login') Login
 include ../partials/flash.pug
