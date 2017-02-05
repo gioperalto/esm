@@ -6,9 +6,9 @@ var Schema = mongoose.Schema;
 
 // create a schema
 var seasonSchema = new Schema({
-  name: {
-    type: String,
-    required: true
+  number: {
+    type: Number,
+    defualt: 1
   },
   winner: {
     type: Schema.Types.ObjectId,

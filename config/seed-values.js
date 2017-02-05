@@ -169,6 +169,10 @@ module.exports = {
         icon: '/assets/images/icons/champions/corki.png',
         lanes: [
           {
+            lane: 'Mid',
+            tier: 'C'
+          },
+          {
             lane: 'ADC',
             tier: 'D'
           }

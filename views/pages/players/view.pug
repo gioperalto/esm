@@ -3,8 +3,50 @@ body
   include ../../partials/navbar.pug
   div.section.white
     div.container
-      h5.header.center= player.fullName
-      
+      h3.header.center= player.fullName
+      div.row
+        div.col.s12.m6
+          h4.header.center Story
+          p.center.
+            Born on the farms of Kentucky and learned how to master the ways of the force
+            from a young age. Obi Wan Kenobi's only true apprentice in the true Jedi ways 
+            and was permitted to ascend to the highest level.
+          br
+          h4.header.center Stats
+          table.responsive-table.striped.centered
+            thead
+              tr
+                th(data-field='age') Age
+                th(data-field='seniority') Seniority
+                th(data-field='retired') Active
+                th(data-field='wins') Wins
+                th(data-field='losses') Losses
+              tbody
+                tr
+                  td= player.age
+                  td= player.seniority 
+                  td
+                    if !player.retired
+                      i.material-icons.green-text check_circle
+                  td= player.wins
+                  td= player.losses
+        div.col.s12.m6
+          h4.header.center Favorite Champions
+          each champion in player.champions
+            div.card-panel.grey.lighten-5.z-depth-1
+              div.row.valign-wrapper
+                div.col.s4
+                  img(src= champion.icon).responsive-img
+                div.col.s8.center
+                  h5.black-text= champion.name
+                  table.responsive-table.striped.centered
+                    thead
+                      tr 
+                        th(data-field='lanes') Lanes
+                    tbody
+                      each lane in champion.lanes
+                        tr
+                          td= lane.lane
   div.parallax-container.overlay
     div.parallax
       img(src='/assets/images/static/home-2.jpg')
