@@ -15,6 +15,23 @@ module.exports = {
       });
   },
 
+  addChampions: function(arr, i, end) {
+    if(i < end) {
+      ChampionController.getRandomChampion(function(champion, err) {
+        if(err) {
+          console.log(err);
+        }
+
+        console.log('Adding to list of champions...');
+        console.log(champion);
+        arr.push(champion);
+        module.exports.addChampions(arr,i + 1,end);
+      });
+    } else {
+      return;
+    }
+  },
+
   createPlayer: function(callback) {
     // TODO: Create utility class for usernames, first names, last names, champions, age, story
 
@@ -56,21 +73,28 @@ module.exports = {
 
     // moods[Math.floor(Math.random() * moods.length)]
 
-    var player = new Player({
-      username: random_uname,
-      first_name: first_names[Math.floor(Math.random() * first_names.length)],
-      last_name: last_names[Math.floor(Math.random() * last_names.length)],
-      age: Math.floor(Math.random() * 19) + 6
+    ChampionController.getRandomChampions(function(champs, err) {
+        if(err) {
+          callback(err);
+        }
+
+        var player = new Player({
+          username: random_uname,
+          first_name: first_names[Math.floor(Math.random() * first_names.length)],
+          last_name: last_names[Math.floor(Math.random() * last_names.length)],
+          champions: champs,
+          age: Math.floor(Math.random() * 19) + 6
+        });
+
+        player.save(function(err) {
+          if(err) {
+            callback(err);
+          }
+
+          callback(player);
+        });
     });
 
-    player.save(function(err) {
-      if(err) {
-        callback(err);
-      }
-
-      console.log('Creating Player...');
-      console.log(player);
-      callback(null);
-    });
+    
   }
 };
