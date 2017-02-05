@@ -10,7 +10,7 @@ module.exports = function(app) {
   // =====================================
 
   app.get('/api/players', function(req, res) {
-    PlayerController.getPlayers(function(players, err) {
+    PlayerController.getActivePlayers(function(players, err) {
       res.status(200).json(players);
     });
   });

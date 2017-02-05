@@ -51,7 +51,7 @@ var playerSchema = new Schema({
 // =====================================
 
 playerSchema.virtual('fullName').get(function () {
-
+  return this.name.first + ' ' + this.name.last;
 });
 
 // on every save, add the date

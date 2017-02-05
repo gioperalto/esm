@@ -15,21 +15,22 @@ module.exports = {
       });
   },
 
-  addChampions: function(arr, i, end) {
-    if(i < end) {
-      ChampionController.getRandomChampion(function(champion, err) {
-        if(err) {
-          console.log(err);
-        }
-
-        console.log('Adding to list of champions...');
-        console.log(champion);
-        arr.push(champion);
-        module.exports.addChampions(arr,i + 1,end);
+  getActivePlayers: function(callback) {
+    Player
+      .find({
+        'retired': false
+      })
+      .exec(function(err, players) {
+          callback(players, err);
       });
-    } else {
-      return;
-    }
+  },
+
+  getPlayerById: function(id, callback) {
+    Player
+      .findById(id)
+      .exec(function(err, player) {
+        callback(player, err);
+      });
   },
 
   createPlayer: function(callback) {
