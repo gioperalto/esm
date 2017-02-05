@@ -1,6 +1,7 @@
 // config/routes.js
 
 var UserController = require('../app/controllers/UserController');
+var PlayerController = require('../app/controllers/PlayerController');
 
 module.exports = function(app) {
 
@@ -23,6 +24,18 @@ module.exports = function(app) {
   });
   app.post('/signup', function(req, res) {
     UserController.createUser(req,res);
+  });
+
+  // =====================================
+  // Players page
+  // =====================================
+  app.get('/players', function(req, res) {
+    PlayerController.getPlayers(function(players, err) {
+      res.render('pages/players', {
+        title: 'Players',
+        players: players
+      });
+    });
   });
 
 	// =====================================

@@ -6,13 +6,15 @@ var Schema = mongoose.Schema;
 
 // create a schema
 var trainerSchema = new Schema({
-  first_name: {
-    type: String,
-    required: true
-  },
-  last_name: {
-    type: String,
-    required: true
+  name: {
+    first: {
+      type: String,
+      required: true
+    },
+    last: {
+      type: String,
+      required: true
+    }
   },
   cost: {
     type: Number,
