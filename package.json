@@ -5,6 +5,7 @@
   "description": "Made by Giovanni Peralto. A Fantasy Football experience brought to League of Legends.",
   "keywords": [],
   "dependencies": {
+    "array-unique": "^0.3.2",
     "async": "^2.1.4",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.16.0",

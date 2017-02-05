@@ -1,5 +1,9 @@
 // app/controllers/ChampionController.js
 
+// Import modules
+var async = require('async');
+var unique = require('array-unique');
+
 // Import Champion model
 var Champion = require('../models/Champion');
 
@@ -24,5 +28,31 @@ module.exports = {
         callback(champion, err);
       });
     });
+  },
+
+  getRandomChampions: function(callback) {
+      // Array to hold async tasks
+      var asyncTasks = [];
+
+      // Array to hold champions
+      var champions = [];
+      var champ_count = Math.ceil(Math.random() * 3) + 2;
+
+      for(var i = 0; i < champ_count; i++) {
+        asyncTasks.push(function(callback) {
+          module.exports.getRandomChampion(function(champion, err) {
+            if(err) {
+              callback(err);
+            }
+
+            champions.push(champion);
+            callback();
+          });
+        });
+      }
+
+      async.parallel(asyncTasks, function(err){
+        callback(unique(champions), err);
+      });
   }
 };
