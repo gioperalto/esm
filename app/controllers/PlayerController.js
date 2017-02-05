@@ -80,8 +80,10 @@ module.exports = {
 
         var player = new Player({
           username: random_uname,
-          first_name: first_names[Math.floor(Math.random() * first_names.length)],
-          last_name: last_names[Math.floor(Math.random() * last_names.length)],
+          name: {
+            first: first_names[Math.floor(Math.random() * first_names.length)],
+            last: last_names[Math.floor(Math.random() * last_names.length)]
+          },
           champions: champs,
           age: Math.floor(Math.random() * 19) + 6
         });
