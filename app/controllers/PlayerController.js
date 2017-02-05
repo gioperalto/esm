@@ -28,6 +28,7 @@ module.exports = {
   getPlayerById: function(id, callback) {
     Player
       .findById(id)
+      .populate('champions')
       .exec(function(err, player) {
         callback(player, err);
       });
@@ -98,6 +99,10 @@ module.exports = {
         });
     });
 
+    
+  },
+
+  play: function(callback) {
     
   }
 };
