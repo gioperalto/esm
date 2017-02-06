@@ -104,8 +104,8 @@ module.exports = function(app) {
   });
 
   app.get('/api/rosters/generate', function(req, res) {
-    RosterController.generate(function(roster, err) {
-      res.status(200).json(roster);
+    RosterController.generate(function(err) {
+      res.redirect('/api/rosters/active');
     });
   });
 };
