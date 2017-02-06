@@ -3,7 +3,7 @@ body
   include ../../partials/navbar.pug
   div.section.white
     h5.header.center Active Roster
-    table.responsive-table.striped
+    table.responsive-table.striped.centered
       thead
         tr
           th(data-field='champion') Champion
@@ -25,9 +25,9 @@ body
               td= roster_item.visible_elo
               td Bronze
               td= roster_item.player.age
-              td= roster_item.value
+              td $#{roster_item.value}
               td
-                a(href='/players/'+roster_item.player.id).btn.blue.lighten-4 History
+                a(href='/players/'+roster_item.player.id).btn.light-blue.accent-4 History
               td No contract available at this time
   div.parallax-container.overlay
     div.parallax
