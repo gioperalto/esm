@@ -15,7 +15,7 @@ var rosterSchema = new Schema({
     ref: 'Champion'
   },
   lane: String,
-  tier: String
+  tier: String,
   player: {
     type: Schema.Types.ObjectId,
     ref: 'Player'
