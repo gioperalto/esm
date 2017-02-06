@@ -27,6 +27,7 @@ module.exports = {
           champion: champion,
           lane: lane.lane,
           tier: lane.tier,
+          player: player,
           mood: mood,
           real_elo: real_elo,
           visible_elo: visible_elo,
@@ -38,7 +39,7 @@ module.exports = {
             callback(err);
           }
 
-          callback(roster);
+          callback(null);
         });
       });
     });
@@ -55,24 +56,13 @@ module.exports = {
     .find()
     .populate('champions')
     .exec(function(err, players) {
-        for(var i = 0; i < players.length; i++) {
-          var player = players[i];
-
-          asyncTasks.push(function(callback) {
-            module.exports.generateRoster(player, function(roster, err) {
-              if(err) {
-                callback(err);
-              }
-
-              roster_items.push(roster);
-              callback();
-            });
-          });
+      async.each(players, module.exports.generateRoster, function(err) {
+        if(err) {
+          callback(err);
         }
 
-        async.parallel(asyncTasks, function(err){
-          callback(roster_items, err);
-        });
+        callback(null);
+      });
     });
   },
 
@@ -80,6 +70,7 @@ module.exports = {
     Roster.find({
       active: true
     })
+    .populate('champion player mood')
     .exec(function(err, rosters) {
       callback(rosters, err);
     });
