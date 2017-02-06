@@ -1,0 +1,36 @@
+include ../../partials/header.pug
+body
+  include ../../partials/navbar.pug
+  div.section.white
+    h5.header.center Active Roster
+    table.responsive-table.striped
+      thead
+        tr
+          th(data-field='champion') Champion
+          th(data-field='username') Username
+          th(data-field='lane') Lane
+          th(data-field='elo') ELO
+          th(data-field='rank') Rank
+          th(data-field='age') Age
+          th(data-field='value') Value
+          th(data-field='match_history') Match History
+          th(data-field='contract') Contract
+        tbody
+          each roster_item in roster
+            tr
+              td
+                img(src= roster_item.champion.icon).responsive-img
+              td= roster_item.player.username
+              td= roster_item.lane
+              td= roster_item.visible_elo
+              td Bronze
+              td= roster_item.player.age
+              td= roster_item.value
+              td
+                a(href='/players/'+roster_item.player.id).btn.blue.lighten-4 History
+              td No contract available at this time
+  div.parallax-container.overlay
+    div.parallax
+      img(src='/assets/images/static/home-2.jpg')
+
+  script(src='/assets/js/scripts/init-parallax.js')
