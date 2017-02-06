@@ -4,7 +4,7 @@
 var Player = require('../models/Player');
 
 // Import Champion controller
-var ChampionController = require('../controllers/ChampionController');
+var ChampionController = require('./ChampionController');
 
 module.exports = {
   getPlayers: function(callback) {
