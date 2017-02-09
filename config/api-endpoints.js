@@ -5,6 +5,7 @@ var ChampionController = require('../app/controllers/ChampionController');
 var PlayerController = require('../app/controllers/PlayerController');
 var MoodController = require('../app/controllers/MoodController');
 var RosterController = require('../app/controllers/RosterController');
+var BattleController = require('../app/controllers/BattleController');
 
 module.exports = function(app) {
 
@@ -112,6 +113,12 @@ module.exports = function(app) {
   // =====================================
   // BATTLES =============================
   // =====================================
+
+  app.get('/api/battles', function(req, res) {
+    BattleController.getBattles(function(battles, err) {
+      res.status(200).json(battles);
+    });
+  });
 
   app.get('/api/battles/battle', function(req, res) {
     RosterController.getActiveRoster(function(roster, err) {
