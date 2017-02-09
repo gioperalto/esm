@@ -28,6 +28,7 @@ module.exports = {
           lane: lane.lane,
           tier: lane.tier,
           player: player,
+          active_mood: mood.threshold,
           mood: mood,
           real_elo: real_elo,
           visible_elo: visible_elo,

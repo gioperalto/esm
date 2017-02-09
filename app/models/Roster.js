@@ -20,6 +20,7 @@ var rosterSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Player'
   },
+  active_mood: Number,
   mood: {
     type: Schema.Types.ObjectId,
     ref: 'Mood'
