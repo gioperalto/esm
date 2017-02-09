@@ -78,7 +78,7 @@ module.exports = function(app) {
   });
 
   // =====================================
-  // SEASONS =============================
+  // MOODS ===============================
   // =====================================
 
   app.get('/api/moods', function(req, res) {
@@ -104,8 +104,20 @@ module.exports = function(app) {
   });
 
   app.get('/api/rosters/generate', function(req, res) {
-    RosterController.generate(function(err) {
-      res.redirect('/api/rosters/active');
+    RosterController.generate(function(roster, err) {
+      res.status(200).json(roster);
+    });
+  });
+
+  // =====================================
+  // BATTLES =============================
+  // =====================================
+
+  app.get('/api/battles/battle', function(req, res) {
+    RosterController.getActiveRoster(function(roster, err) {
+      PlayerController.battle(roster, function(battles, err) {
+        res.status(200).json(battles);
+      });
     });
   });
 };
