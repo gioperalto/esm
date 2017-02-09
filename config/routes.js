@@ -3,6 +3,7 @@
 var UserController = require('../app/controllers/UserController');
 var PlayerController = require('../app/controllers/PlayerController');
 var RosterController = require('../app/controllers/RosterController');
+var BattleController = require('../app/controllers/BattleController');
 
 module.exports = function(app) {
 
@@ -54,13 +55,24 @@ module.exports = function(app) {
   // =====================================
   app.get('/roster', function(req, res) {
     RosterController.getActiveRoster(function(roster, err) {
-      console.log(roster);
       res.render('pages/roster', {
         title: 'Roster',
         roster: roster
       });
     });
   });
+  app.get('/roster/:id', function(req, res) {
+    var id = req.params.id;
+    
+    BattleController.getBattlesByRoster(id, function(battles, err) {
+      res.render('pages/roster/history', {
+        title: 'Match History',
+        battles: battles
+      });
+    });
+  });
+
+
 
 	// =====================================
   // Login page

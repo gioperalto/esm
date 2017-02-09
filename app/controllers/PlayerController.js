@@ -1,10 +1,15 @@
 // app/controllers/PlayerController.js
 
-// Import Player model
-var Player = require('../models/Player');
+// Import modules
+var async = require('async');
 
-// Import Champion controller
+// Import models
+var Player = require('../models/Player');
+var Battle = require('../models/Battle');
+
+// Import controllers
 var ChampionController = require('./ChampionController');
+var RosterController = require('./RosterController');
 
 module.exports = {
   getPlayers: function(callback) {
@@ -87,7 +92,7 @@ module.exports = {
             last: last_names[Math.floor(Math.random() * last_names.length)]
           },
           champions: champs,
-          age: Math.floor(Math.random() * 19) + 6
+          age: Math.floor(Math.random() * 13) + 13
         });
 
         player.save(function(err) {
@@ -102,7 +107,88 @@ module.exports = {
     
   },
 
-  play: function(callback) {
-    
+  playMatch: function(roster_item, callback) {
+    // TODO: Champ vs Champ odds (refactor into util soon)
+    var champ_odds = Math.ceil(Math.random() * 30);
+    var opp_champ_odds = Math.ceil(Math.random() * 30);
+
+    // TODO: have function for tier to % conversion
+    var tiers = {
+      'S': 100,
+      'A': 85,
+      'B': 70,
+      'C': 55,
+      'D': 40,
+      'E': 25,
+      'F': 10
+    };
+    var tier_value = tiers[roster_item.tier] * 20 / 100;
+
+    // TODO: have function to calculate % based on ELO
+    var elo_diff = roster_item.real_elo - roster_item.visible_elo;
+    var elo_value = elo_diff > 100 
+      ?
+        35
+      :
+        elo_diff > 50
+        ?
+          25
+        :
+          elo_diff > 25
+          ?
+            15
+          :
+            elo_diff > -25
+            ?
+              5
+            :
+              0;
+
+    // TODO: function to calculate exp val
+    var exp_val = Math.min(15, roster_item.player.experience);
+
+    ChampionController.getRandomChampion(function(opponent, err) {
+      var opp_tier_value = tiers[opponent.lanes.tier] * 20 / 100;
+
+      // TODO: Make this cleaner
+      var your_odds = champ_odds + tier_value + elo_value + exp_val;
+      var opponent_odds = opp_champ_odds + opp_tier_value + 15;
+      var victory = your_odds >= opponent_odds;
+
+      var battle = new Battle({
+        roster: roster_item,
+        victory: victory,
+        opponent: opponent
+      });
+
+      if(victory) {
+        roster_item.wins++;
+        roster_item.player.wins++;
+      } else {
+        roster_item.losses++;
+        roster_item.player.losses++;
+      }
+
+      roster_item.save(function(err) {
+        if(err) {
+          callback(err);
+        }
+
+        roster_item.player.save();
+        battle.save();
+        callback(null);
+      });
+
+    });
+  },
+
+  battle: function(roster, callback) {
+    async.each(roster, module.exports.playMatch, function(err) {
+      if(err) {
+        callback(err);
+      }
+
+      callback(null);
+    });
   }
 };

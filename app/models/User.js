@@ -17,8 +17,12 @@ var userSchema = new Schema({
   },
   players: [{
     type: Schema.Types.ObjectId,
-    ref: 'Player'
+    ref: 'Roster'
   }],
+  roster_limit: {
+    type: Number,
+    default: 1
+  },
   last_login: Date,
   created_at: Date,
   modified_at: Date
