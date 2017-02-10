@@ -174,13 +174,13 @@ module.exports = {
         roster_item.wins++;
         roster_item.player.wins++;
         roster_item.real_elo = roster_item.real_elo + (REAL_ELO_BUMP * roster_item.mood.win_multiplier);
-        roster_item.visible_elo = roster_item.visible_elo + (VISIBLE_ELO_BUMP * roster_item.mood.win_multiplier);
+        roster_item.visible_elo = Math.round(roster_item.visible_elo + (VISIBLE_ELO_BUMP * roster_item.mood.win_multiplier));
         roster_item.active_mood = Math.min(roster_item.active_mood + MOOD_BUMP, MOOD_MAX);
       } else {
         roster_item.losses++;
         roster_item.player.losses++;
         roster_item.real_elo = roster_item.real_elo - (REAL_ELO_BUMP * roster_item.mood.loss_multiplier);
-        roster_item.visible_elo = roster_item.visible_elo - (VISIBLE_ELO_BUMP * roster_item.mood.loss_multiplier);
+        roster_item.visible_elo = Math.round(roster_item.visible_elo - (VISIBLE_ELO_BUMP * roster_item.mood.loss_multiplier));
         roster_item.active_mood = Math.max(roster_item.active_mood - MOOD_BUMP, MOOD_MIN);
       }
 
