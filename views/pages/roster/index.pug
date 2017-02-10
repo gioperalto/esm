@@ -12,6 +12,8 @@ body
           th(data-field='rank') Rank
           th(data-field='age') Age
           th(data-field='value') Value
+          th(data-field='wins') Wins
+          th(data-field='losses') Losses
           th(data-field='match_history') Match History
           th(data-field='contract') Contract
           th(data-field='champion') Champion
@@ -24,9 +26,12 @@ body
               td Bronze
               td= roster_item.player.age
               td $#{roster_item.value}
-              td No contract available at this time
+              td= roster_item.wins
+              td= roster_item.losses
               td
                 a(href='/roster/'+roster_item.id).btn.light-blue.accent-4 History
+              td No contract available at this time
+              
               td
                 img(src= roster_item.champion.icon).responsive-img
   div.parallax-container.overlay
