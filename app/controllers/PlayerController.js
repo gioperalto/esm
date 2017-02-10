@@ -157,7 +157,7 @@ module.exports = {
       var MOOD_MIN = 0;
       var MOOD_MAX = 7;
       var REAL_ELO_BUMP = 3;
-      var VISIBLE_ELO_BUMP = 7;
+      var VISIBLE_ELO_BUMP = 6;
       var your_odds = champ_odds + tier_value + elo_value + exp_val;
       var opponent_odds = opp_champ_odds + opp_tier_value + 15;
       var victory = your_odds >= opponent_odds;
@@ -165,30 +165,27 @@ module.exports = {
       var battle = new Battle({
         roster: roster_item,
         opponent: opponent,
+        active_mood: roster_item.active_mood,
         score: your_odds,
         opponent_score: opponent_odds,
         victory: victory,
       });
 
-      console.log('Mood before win/loss: ' + roster_item.active_mood);
-
       if(victory) {
         roster_item.wins++;
         roster_item.player.wins++;
-        roster_item.real_elo = roster_item.real_elo + (REAL_ELO_BUMP * roster_item.mood.win_multiplier);
+        roster_item.real_elo = Math.round(roster_item.real_elo + (REAL_ELO_BUMP * roster_item.mood.win_multiplier));
         roster_item.visible_elo = Math.round(roster_item.visible_elo + (VISIBLE_ELO_BUMP * roster_item.mood.win_multiplier));
         roster_item.active_mood = Math.min(roster_item.active_mood + MOOD_BUMP, MOOD_MAX);
       } else {
         roster_item.losses++;
         roster_item.player.losses++;
-        roster_item.real_elo = roster_item.real_elo - (REAL_ELO_BUMP * roster_item.mood.loss_multiplier);
+        roster_item.real_elo = Math.round(roster_item.real_elo - (REAL_ELO_BUMP * roster_item.mood.loss_multiplier));
         roster_item.visible_elo = Math.round(roster_item.visible_elo - (VISIBLE_ELO_BUMP * roster_item.mood.loss_multiplier));
         roster_item.active_mood = Math.max(roster_item.active_mood - MOOD_BUMP, MOOD_MIN);
       }
 
       MoodController.setMood(roster_item.active_mood, function(mood, err) {
-        console.log('Active mood: ' + roster_item.active_mood);
-        console.log('Mood: ' + mood);
 
         roster_item.mood = mood;
 

@@ -14,6 +14,7 @@ var battleSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Champion'
   },
+  active_mood: Number,
   score: Number,
   opponent_score: Number,
   victory: Boolean,
