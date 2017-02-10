@@ -71,6 +71,7 @@ playerSchema.virtual('stars').get(function() {
 
   var winLossRatio = (this.wins - this.losses) / this.wins * 100;
   var stars = [50, 60, 70, 80, 90];
+  var stars_earned = [];
 
   for(var i = 0; i < stars.length; i++) {
     if(winLossRatio >= stars[i])
