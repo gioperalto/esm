@@ -10,11 +10,13 @@ var battleSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Roster'
   },
-  victory: Boolean,
   opponent: {
     type: Schema.Types.ObjectId,
     ref: 'Champion'
   },
+  score: Number,
+  opponent_score: Number,
+  victory: Boolean,
   created_at: Date,
   modified_at: Date
 });
