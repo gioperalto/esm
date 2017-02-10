@@ -2,6 +2,7 @@
 
 // Import modules
 var async = require('async');
+var unique = require('array-unique');
 
 // Import models
 var Player = require('../models/Player');
@@ -78,8 +79,6 @@ module.exports = {
       'Edwards', 'Rogers', 'Gomez', 'Hurt', 'Watt', 'Ryan', 'Pence', 'Bush', 'Kennedy', 'Washington'
     ];
 
-    // moods[Math.floor(Math.random() * moods.length)]
-
     ChampionController.getRandomChampions(function(champs, err) {
         if(err) {
           callback(err);
@@ -91,7 +90,7 @@ module.exports = {
             first: first_names[Math.floor(Math.random() * first_names.length)],
             last: last_names[Math.floor(Math.random() * last_names.length)]
           },
-          champions: champs,
+          champions: unique(champs),
           age: Math.floor(Math.random() * 13) + 13
         });
 
@@ -153,8 +152,8 @@ module.exports = {
       ].tier] * 20 / 100;
 
       // TODO: Make this cleaner
-      var REAL_ELO_BUMP = 4;
-      var VISIBLE_ELO_BUMP = 8;
+      var REAL_ELO_BUMP = 3;
+      var VISIBLE_ELO_BUMP = 7;
       var your_odds = champ_odds + tier_value + elo_value + exp_val;
       var opponent_odds = opp_champ_odds + opp_tier_value + 15;
       var victory = your_odds >= opponent_odds;
@@ -175,8 +174,8 @@ module.exports = {
       } else {
         roster_item.losses++;
         roster_item.player.losses++;
-        roster_item.real_elo = roster_item.real_elo - (REAL_ELO_BUMP * roster_item.mood.win_multiplier);
-        roster_item.visible_elo = roster_item.visible_elo - (VISIBLE_ELO_BUMP * roster_item.mood.win_multiplier);
+        roster_item.real_elo = roster_item.real_elo - (REAL_ELO_BUMP * roster_item.mood.loss_multiplier);
+        roster_item.visible_elo = roster_item.visible_elo - (VISIBLE_ELO_BUMP * roster_item.mood.loss_multiplier);
       }
 
       roster_item.save(function(err) {

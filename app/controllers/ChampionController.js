@@ -2,7 +2,6 @@
 
 // Import modules
 var async = require('async');
-var unique = require('array-unique');
 
 // Import Champion model
 var Champion = require('../models/Champion');
@@ -52,7 +51,7 @@ module.exports = {
       }
 
       async.parallel(asyncTasks, function(err){
-        callback(unique(champions), err);
+        callback(champions, err);
       });
   }
 };
