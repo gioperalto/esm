@@ -63,6 +63,23 @@ playerSchema.virtual('seniority').get(function() {
     ;
 });
 
+playerSchema.virtual('stars').get(function() {
+  var MIN_MATCHES = 40;
+  
+  if((this.wins + this.losses) < MIN_MATCHES)
+    return 0;
+
+  var winLossRatio = (this.wins - this.losses) / this.wins * 100;
+  var stars = [50, 60, 70, 80, 90];
+
+  for(var i = 0; i < stars.length; i++) {
+    if(winLossRatio >= stars[i])
+      stars_earned.push(stars[i]);
+  }
+
+  return stars_earned;
+});
+
 // on every save, add the date
 playerSchema.pre('save', function(next) {
   // get the current date

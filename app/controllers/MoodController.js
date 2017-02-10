@@ -43,7 +43,7 @@ module.exports = {
         "$lte": mood_num
         }
       }).
-      sort({ threshold: 1 })
+      sort({ threshold: -1 })
       .exec(function(err, mood) {
         callback(mood, err);
       });
