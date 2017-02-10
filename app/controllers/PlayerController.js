@@ -148,35 +148,52 @@ module.exports = {
     var exp_val = Math.min(15, roster_item.player.experience);
 
     ChampionController.getRandomChampion(function(opponent, err) {
-      var opp_tier_value = tiers[opponent.lanes.tier] * 20 / 100;
+      var opp_tier_value = tiers[opponent.lanes[
+        Math.floor(Math.random() * opponent.lanes.length)
+      ].tier] * 20 / 100;
 
       // TODO: Make this cleaner
+      var REAL_ELO_BUMP = 4;
+      var VISIBLE_ELO_BUMP = 8;
       var your_odds = champ_odds + tier_value + elo_value + exp_val;
       var opponent_odds = opp_champ_odds + opp_tier_value + 15;
       var victory = your_odds >= opponent_odds;
 
       var battle = new Battle({
         roster: roster_item,
+        opponent: opponent,
+        score: your_odds,
+        opponent_score: opponent_odds,
         victory: victory,
-        opponent: opponent
       });
 
       if(victory) {
         roster_item.wins++;
         roster_item.player.wins++;
+        roster_item.real_elo = roster_item.real_elo + (REAL_ELO_BUMP * roster_item.mood.win_multiplier);
+        roster_item.visible_elo = roster_item.visible_elo + (VISIBLE_ELO_BUMP * roster_item.mood.win_multiplier);
       } else {
         roster_item.losses++;
         roster_item.player.losses++;
+        roster_item.real_elo = roster_item.real_elo - (REAL_ELO_BUMP * roster_item.mood.win_multiplier);
+        roster_item.visible_elo = roster_item.visible_elo - (VISIBLE_ELO_BUMP * roster_item.mood.win_multiplier);
       }
 
       roster_item.save(function(err) {
-        if(err) {
+        if(err)
           callback(err);
-        }
 
-        roster_item.player.save();
-        battle.save();
-        callback(null);
+        roster_item.player.save(function(err) {
+          if(err)
+            callback(err);
+
+          battle.save(function(err) {
+            if(err)
+              callback(err);
+
+            callback(null);
+          });
+        });
       });
 
     });
