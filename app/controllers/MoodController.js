@@ -35,5 +35,17 @@ module.exports = {
         callback(mood, err);
       });
     });
+  },
+
+  setMood: function(mood_num, callback) {
+    Mood.findOne({
+        threshold: {
+        "$lte": mood_num
+        }
+      }).
+      sort({ threshold: 1 })
+      .exec(function(err, mood) {
+        callback(mood, err);
+      });
   }
 };
