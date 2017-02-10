@@ -11,6 +11,7 @@ var Battle = require('../models/Battle');
 // Import controllers
 var ChampionController = require('./ChampionController');
 var RosterController = require('./RosterController');
+var MoodController = require('./MoodController');
 
 module.exports = {
   getPlayers: function(callback) {
@@ -152,6 +153,9 @@ module.exports = {
       ].tier] * 20 / 100;
 
       // TODO: Make this cleaner
+      var MOOD_BUMP = 1;
+      var MOOD_MIN = 0;
+      var MOOD_MAX = 7;
       var REAL_ELO_BUMP = 3;
       var VISIBLE_ELO_BUMP = 7;
       var your_odds = champ_odds + tier_value + elo_value + exp_val;
@@ -171,26 +175,32 @@ module.exports = {
         roster_item.player.wins++;
         roster_item.real_elo = roster_item.real_elo + (REAL_ELO_BUMP * roster_item.mood.win_multiplier);
         roster_item.visible_elo = roster_item.visible_elo + (VISIBLE_ELO_BUMP * roster_item.mood.win_multiplier);
+        roster_item.active_mood = Math.min(roster_item.active_mood + MOOD_BUMP, MOOD_MAX);
       } else {
         roster_item.losses++;
         roster_item.player.losses++;
         roster_item.real_elo = roster_item.real_elo - (REAL_ELO_BUMP * roster_item.mood.loss_multiplier);
         roster_item.visible_elo = roster_item.visible_elo - (VISIBLE_ELO_BUMP * roster_item.mood.loss_multiplier);
+        roster_item.active_mood = Math.max(roster_item.active_mood - MOOD_BUMP, MOOD_MIN);
       }
 
-      roster_item.save(function(err) {
-        if(err)
-          callback(err);
+      MoodController.setMood(roster_item.active_mood, function(mood, err) {
+        roster_item.mood = mood;
 
-        roster_item.player.save(function(err) {
+        roster_item.save(function(err) {
           if(err)
             callback(err);
 
-          battle.save(function(err) {
+          roster_item.player.save(function(err) {
             if(err)
               callback(err);
 
-            callback(null);
+            battle.save(function(err) {
+              if(err)
+                callback(err);
+
+              callback(null);
+            });
           });
         });
       });
