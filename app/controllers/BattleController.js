@@ -19,6 +19,7 @@ module.exports = {
     Battle.find({
       roster: id
     })
+    .sort({ created_at: -1 })
     .populate('roster opponent')
     .exec(function(err, battles) {
       if(err) {
