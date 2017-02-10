@@ -170,6 +170,8 @@ module.exports = {
         victory: victory,
       });
 
+      console.log('Mood before win/loss: ' + roster_item.active_mood);
+
       if(victory) {
         roster_item.wins++;
         roster_item.player.wins++;
@@ -185,6 +187,9 @@ module.exports = {
       }
 
       MoodController.setMood(roster_item.active_mood, function(mood, err) {
+        console.log('Active mood: ' + roster_item.active_mood);
+        console.log('Mood: ' + mood);
+
         roster_item.mood = mood;
 
         roster_item.save(function(err) {

@@ -9,6 +9,7 @@ body
           tr
             th(data-field='username') Username
             th(data-field='name') Name
+            th(data-field='stars') Stars
             th(data-field='age') Age
             th(data-field='wins') Wins
             th(data-field='losses') Losses
@@ -18,6 +19,9 @@ body
               tr
                 td= player.username
                 td= player.fullName
+                td
+                  each star in player.stars
+                    i.material-icons.stars.orange-text grade
                 td= player.age
                 td= player.wins
                 td= player.losses

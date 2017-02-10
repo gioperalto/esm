@@ -4,6 +4,9 @@ body
   div.section.white
     div.container
       h3.header.center= player.fullName
+      p.center
+        each star in player.stars
+          i.material-icons.stars.orange-text grade
       div.row
         div.col.s12.m6
           h4.header.center Story
