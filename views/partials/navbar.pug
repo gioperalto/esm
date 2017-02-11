@@ -2,14 +2,19 @@ nav.black
   div.nav-wrapper
     a.brand-logo.center(href='/')
       img(src='/assets/images/logos/logo.png' height='64px')
-    ul#nav-mobile.right.hide-hide-on-med-and-down
+    ul#nav-mobile.right.hide-hide-on-med-and-down.valign-wrapper
+      if login
+        li
+          img(src='/assets/images/icons/coin.png' width='32px').valign
+        li
+          a(href='#')= coin
       li
         a(href='/players') Players
       li
         a(href='/roster') Roster
-      if user
+      if login
         li
-          a(href='/dashboard') Dashboard
+          a(href='/profile') Profile
         li
           a(href='/logout') Logout
       else

@@ -6,12 +6,24 @@ var async = require('async');
 
 // Import models/seed values
 var seeds = require('./config/seed-values');
+var Reward = require('./app/models/Reward');
 var Analyst = require('./app/models/Analyst');
 var Trainer = require('./app/models/Trainer');
 var Champion = require('./app/models/Champion');
 var Mood = require('./app/models/Mood');
 
 module.exports = {
+  seedReward: function(reward, callback) {
+    var r = new Reward(reward);
+  
+    r.save(function(err) {
+      if(err) {
+        callback(err);
+      }
+      callback(null);
+    });
+  },
+
   seedAnalyst: function(analyst, callback) {
     var a = new Analyst(analyst);
   
@@ -80,6 +92,14 @@ module.exports = {
     var start = Date.now();
 
     async.waterfall([
+      function(callback) {
+        module.exports.seedItems(
+          seeds.seedValues.rewards,
+          Reward,
+          module.exports.seedReward,
+          callback
+        );
+      },
       function(callback) {
         module.exports.seedItems(
           seeds.seedValues.analysts,
