@@ -39,7 +39,7 @@ module.exports = function(app, passport) {
   app.get('/profile', isLoggedIn, function(req, res) {
     UserController.getProfileInfo(req.session.passport.user, function(user, err) {
       RewardController.getAllRewards(function(rewards, err) {
-        res.render('pages/profile', {
+        res.render('pages/users/profile', {
           title: 'Profile',
           rewards: rewards,
           user: user
@@ -47,7 +47,39 @@ module.exports = function(app, passport) {
       });
     });
   });
-  
+
+  // =====================================
+  // User controls (buy/sell)
+  // =====================================
+  app.post('/buy/:id', isLoggedIn, function(req, res) {
+    var player_id = req.params.id;
+
+    UserController.buyPlayer(req.session.passport.user, player_id, function(toastMessage, coin, err) {
+      if(err)
+        console.log(err);
+
+      if(coin)
+        req.session.coin = coin;
+
+      console.log(toastMessage);
+      res.redirect('/profile');
+    });
+  });
+  app.post('/sell/:id', isLoggedIn, function(req, res) {
+    var player_id = req.params.id;
+
+    UserController.sellPlayer(req.session.passport.user, player_id, function(toastMessage, coin, err) {
+      if(err)
+        console.log(err);
+
+      if(coin)
+        req.session.coin = coin;
+
+      console.log(toastMessage);
+      res.redirect('/profile');
+    });
+  });
+
   // =====================================
   // Logout
   // =====================================

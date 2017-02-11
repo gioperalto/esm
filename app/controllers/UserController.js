@@ -7,6 +7,7 @@ var Roster = require('../models/Roster');
 // Import controllers
 var PlayerController = require('./PlayerController');
 var RosterController = require('./RosterController');
+var CoinController = require('./CoinController');
 
 module.exports = {
   // =====================================
@@ -92,13 +93,92 @@ module.exports = {
       .populate('season champion player mood')
       .exec(function(err, roster) {
         var info = {
-          players: roster,
+          players: user.players.length > 0 ? roster : user.players,
           roster_limit: user.roster_limit,
           coin: user.coin
         };
 
         callback(info, err);
       });
+    });
+  },
+
+  buyPlayer: function(user_id, player_id, callback) {
+    var toastMessage = '';
+    User.findById(user_id)
+    .exec(function(err, user) {
+      if(err)
+        callback(err);
+
+      if(user.players.length == user.roster_limit) {
+        toastMessage = 'You are at your roster limit. You must sell another '
+        + 'player or increase your limit to buy this champion';
+        callback(toastMessage);
+      } else {
+        Roster.findById(player_id)
+        .populate('player')
+        .exec(function(err, roster_item) {
+          var champ_value = roster_item.value;
+
+          if(user.coin < champ_value) {
+            toastMessage = 'You cannot afford ' + roster_item.player.username
+              + ' for ' + champ_value + ' coin. You only have ' + user.coin + ' coin';
+            callback(toastMessage);
+          } else {
+            user.coin -= champ_value;
+            user.coin_spent += champ_value;
+            user.players.push(roster_item);
+            user.save(function(err) {
+              if(err)
+                callback(err);
+
+              toastMessage = 'You have purchased ' + roster_item.player.username
+                + ' for ' + champ_value + ' coin';
+              callback(toastMessage, user.coin, err);
+            });
+          }
+        });
+      }
+    });
+  },
+
+  sellPlayer: function(user_id, player_id, callback) {
+    var toastMessage = '';
+    User.findById(user_id)
+    .exec(function(err, user) {
+      if(err)
+        callback(err);
+
+      var index = user.players.indexOf(player_id);
+
+      if(index > -1) {
+        Roster.findById(player_id)
+        .populate('player')
+        .exec(function(err, roster_item) {
+          if(err)
+            callback(err);
+
+          user.coin += roster_item.value;
+          user.players.splice(index, 1);
+          user.save(function(err) {
+            if(err)
+              callback(err);
+
+            roster_item.available = true;
+            roster_item.save(function(err) {
+              if(err)
+                callback(err);
+
+              toastMessage = roster_item.player.username + ' was sold for ' 
+                + roster_item.value + ' coin';
+              callback(toastMessage, user.coin, err);
+            });
+          });
+        });
+      } else {
+        toastMessage = 'Roster player does not exist';
+        callback(toastMessage);
+      }
     });
   }
 };
