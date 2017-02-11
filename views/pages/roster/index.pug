@@ -30,8 +30,11 @@ body
               td= roster_item.losses
               td
                 a(href='/roster/history/'+roster_item.id).btn.light-blue.accent-4 History
-              td No contract available at this time
-              
+              td
+                if roster_item.available
+                  a(href='/roster/buy/'+roster_item.id).btn.green Purchase for $#{roster_item.value}
+                else
+                  p Contract unavailable
               td
                 img(src= roster_item.champion.icon).responsive-img
   div.parallax-container.overlay
