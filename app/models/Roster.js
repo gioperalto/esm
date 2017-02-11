@@ -29,6 +29,10 @@ var rosterSchema = new Schema({
     type: Boolean,
     default: true
   },
+  available: {
+    type: Boolean,
+    default: true
+  },
   real_elo: {
     type: Number,
     required: true

@@ -1,7 +1,12 @@
 // app/controllers/UserController.js
 
-// Import User model
+// Import models
 var User = require('../models/User');
+var Roster = require('../models/Roster');
+
+// Import controllers
+var PlayerController = require('./PlayerController');
+var RosterController = require('./RosterController');
 
 module.exports = {
   // =====================================
@@ -34,20 +39,26 @@ module.exports = {
         console.log(toastMessage);
         res.redirect('/signup');
       } else {
-        var newUser = new User();
+        PlayerController.createPlayer(function(player) {
+          RosterController.generateRosterForPlayer(player, function(roster_item) {
+            var newUser = new User();
 
-        // set the user's credentials
-        newUser.email    = email;
-        newUser.password = newUser.generateHash(password);
-        newUser.dob = dob;
+            // set the user's credentials
+            newUser.email    = email;
+            newUser.password = newUser.generateHash(password);
+            newUser.dob = dob;
+            newUser.players.push(roster_item);
 
-        // save the user
-        newUser.save(function(err) {
-          if (err)
-            throw err;
-          toastMessage = 'Account successfully created. Try logging in now.';
-          console.log(toastMessage);
-          res.redirect('/login');
+            // save the user
+            newUser.save(function(err) {
+              if (err)
+                throw err;
+
+              toastMessage = 'Account successfully created. Try logging in now.';
+              console.log(toastMessage);
+              res.redirect('/login');
+            });
+          });
         });
       }
     }); 
@@ -66,6 +77,28 @@ module.exports = {
       } else {
         callback(err,user);
       }
+    });
+  },
+
+  getProfileInfo: function(id, callback) {
+    User
+    .findById(id)
+    .populate('players')
+    .exec(function(err, user) {
+      if (err)
+        throw err;
+
+      Roster.find(user.players)
+      .populate('season champion player mood')
+      .exec(function(err, roster) {
+        var info = {
+          players: roster,
+          roster_limit: user.roster_limit,
+          coin: user.coin
+        };
+
+        callback(info, err);
+      });
     });
   }
 };

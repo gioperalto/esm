@@ -11,17 +11,33 @@ var userSchema = new Schema({
   email: String,
   password: String,
   dob: Date,
-  coin: {
-    type: Number,
-    default: 25
-  },
   players: [{
     type: Schema.Types.ObjectId,
     ref: 'Roster'
   }],
+  awards: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Award'
+  }],
   roster_limit: {
     type: Number,
     default: 1
+  },
+  coin: {
+    type: Number,
+    default: 0
+  },
+  coin_spent: {
+    type: Number,
+    default: 0
+  },
+  coin_purchased: {
+    type: Number,
+    default: 0
+  },
+  coin_awarded: {
+    type: Number,
+    default: 0
   },
   last_login: Date,
   created_at: Date,
@@ -50,7 +66,7 @@ userSchema.methods.generateHash = function(password) {
 
 // checking if password is valid
 userSchema.methods.validPassword = function(password) {
-    return bcrypt.compareSync(password, this.local.password);
+    return bcrypt.compareSync(password, this.password);
 };
 
 userSchema.methods.getYearOfBirth = function(age) {

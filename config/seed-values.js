@@ -1,6 +1,18 @@
 // config/seed-values.js
 module.exports = {
   seedValues: {
+    rewards: [
+      {
+        name: 'Take Feedback Survey',
+        value: 100,
+        link: 'https://gyoperalto.typeform.com/to/ECEHy9'
+      },
+      {
+        name: 'Share on Facebook',
+        value: 100,
+        link: '#'
+      }
+    ],
     analysts: [
       {
         name: {
