@@ -26,6 +26,7 @@ module.exports = {
         "$gte": now
       }
     })
+    .sort({ start: -1 })
     .exec(function(err, season) {
       if(err) {
         callback(err);
@@ -41,6 +42,25 @@ module.exports = {
     nextWeek.setDate(nextWeek.getDate() + 7);
     var season = new Season({
       number: number,
+      start: now,
+      end: nextWeek
+    });
+
+    season.save(function(err, season) {
+      if(err) {
+        callback(err)
+      }
+
+      callback(season, err);
+    });
+  }
+
+  nextSeason: function(current_season, callback) {
+    var now = new Date();
+    var nextWeek = new Date();
+    nextWeek.setDate(nextWeek.getDate() + 7);
+    var season = new Season({
+      number: current_season.number + 1,
       start: now,
       end: nextWeek
     });

@@ -16,3 +16,6 @@
   font-size: 14px;
 }
 
+.fixed-action-btn {
+  position: relative;
+}

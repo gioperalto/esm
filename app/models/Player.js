@@ -24,10 +24,6 @@ var playerSchema = new Schema({
     type: Number,
     default: 0
   },
-  experience: {
-    type: Number,
-    default: 0
-  },
   champions: [{
     type: Schema.Types.ObjectId,
     ref: 'Champion'
@@ -56,6 +52,11 @@ var playerSchema = new Schema({
 
 playerSchema.virtual('fullName').get(function() {
   return this.name.first + ' ' + this.name.last;
+});
+
+playerSchema.virtual('experience').get(function() {
+  var SEASONS_PER_YEAR = 4;
+  return Math.floor(this.seasons / SEASONS_PER_YEAR);
 });
 
 playerSchema.virtual('seniority').get(function() {
