@@ -54,7 +54,7 @@ require('./config/api-endpoints')(app);
 // ---------------------------------------------------------
 // Routes
 // ---------------------------------------------------------
-require('./config/routes')(app);
+require('./config/routes')(app, passport);
 require('./config/admin-routes')(app, passport);
 
 // ---------------------------------------------------------

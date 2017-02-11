@@ -20,6 +20,10 @@ var playerSchema = new Schema({
       required: true
     }
   },
+  seasons: {
+    type: Number,
+    default: 0
+  },
   experience: {
     type: Number,
     default: 0

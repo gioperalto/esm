@@ -1,15 +1,21 @@
 // config/admin-routes.js
 
 var UserController = require('../app/controllers/UserController');
+var PlayerController = require('../app/controllers/PlayerController');
+var RosterController = require('../app/controllers/RosterController');
+var BattleController = require('../app/controllers/BattleController');
+var RewardController = require('../app/controllers/RewardController');
 
 module.exports = function(app, passport) {
   // =====================================
   // Login
   // =====================================
-  app.post('/login', passport.authenticate('local', {
-    successRedirect : '/profile',
-    failureRedirect : '/login'
-  }));
+  app.post('/login', passport.authenticate('local'), function(req, res) {
+      UserController.getProfileInfo(req.session.passport.user, function(user, err) {
+        req.session.coin = user.coin;
+        res.redirect('/profile');
+      });
+  });
 
   // =====================================
   // Facebook Login
@@ -31,19 +37,35 @@ module.exports = function(app, passport) {
   // Profile page
   // =====================================
   app.get('/profile', isLoggedIn, function(req, res) {
-    UserController.getExperience(req.session.passport.user, function(err, exp) {
-      res.render('pages/index', {
-        title: 'Profile',
-        exp: exp
+    UserController.getProfileInfo(req.session.passport.user, function(user, err) {
+      RewardController.getAllRewards(function(rewards, err) {
+        res.render('pages/profile', {
+          title: 'Profile',
+          rewards: rewards,
+          user: user
+        });
       });
     });
   });
+  
+  // =====================================
+  // Logout
+  // =====================================
+  app.get('/logout', function(req, res) {
+    req.logout();
+    res.redirect('/');
+  });
 };
+
+
 
 // route middleware to make sure a user is logged in
 function isLoggedIn(req, res, next) {
-  if (req.isAuthenticated())
+  if (req.isAuthenticated()) {
+    res.locals.coin = req.session.coin;
+    res.locals.login = req.isAuthenticated();
     return next();
+  }
 
   res.redirect('/');
 }

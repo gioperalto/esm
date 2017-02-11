@@ -5,12 +5,12 @@ var PlayerController = require('../app/controllers/PlayerController');
 var RosterController = require('../app/controllers/RosterController');
 var BattleController = require('../app/controllers/BattleController');
 
-module.exports = function(app) {
+module.exports = function(app, passport) {
 
 	// =====================================
   // Home page
   // =====================================
-  app.get('/', function(req, res) {
+  app.get('/', isLoggedIn, function(req, res) {
   	res.render('pages', {
   		title: 'Home'
   	});
@@ -19,7 +19,7 @@ module.exports = function(app) {
   // =====================================
   // Signup page
   // =====================================
-  app.get('/signup', function(req, res) {
+  app.get('/signup', isLoggedIn, function(req, res) {
     res.render('pages/signup', {
       title: 'Signup'
     });
@@ -31,7 +31,7 @@ module.exports = function(app) {
   // =====================================
   // Players
   // =====================================
-  app.get('/players', function(req, res) {
+  app.get('/players', isLoggedIn, function(req, res) {
     PlayerController.getPlayers(function(players, err) {
       res.render('pages/players', {
         title: 'Players',
@@ -39,7 +39,7 @@ module.exports = function(app) {
       });
     });
   });
-  app.get('/players/:id', function(req, res) {
+  app.get('/players/:id', isLoggedIn, function(req, res) {
     var id = req.params.id;
 
     PlayerController.getPlayerById(id, function(player, err) {
@@ -53,7 +53,7 @@ module.exports = function(app) {
   // =====================================
   // Roster
   // =====================================
-  app.get('/roster', function(req, res) {
+  app.get('/roster', isLoggedIn, function(req, res) {
     RosterController.getActiveRoster(function(roster, err) {
       res.render('pages/roster', {
         title: 'Roster',
@@ -61,7 +61,7 @@ module.exports = function(app) {
       });
     });
   });
-  app.get('/roster/:id', function(req, res) {
+  app.get('/roster/history/:id', isLoggedIn, function(req, res) {
     var id = req.params.id;
     
     BattleController.getBattlesByRoster(id, function(battles, err) {
@@ -72,15 +72,23 @@ module.exports = function(app) {
     });
   });
 
-
-
 	// =====================================
   // Login page
   // =====================================
-  app.get('/login', function(req, res) {
+  app.get('/login', isLoggedIn, function(req, res) {
   	res.render('pages/login', {
   		title: 'Login'
   	});
   });
 
 };
+
+// route middleware to make sure a user is logged in
+function isLoggedIn(req, res, next) {
+  if (req.isAuthenticated()) {
+    res.locals.coin = req.session.coin;
+    res.locals.login = req.isAuthenticated();
+  }
+
+  return next();
+}

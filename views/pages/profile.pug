@@ -1,0 +1,57 @@
+include ../partials/header.pug
+body#home
+  include ../partials/navbar.pug
+  div.section.white
+    div.container.center
+      h4 Profile
+      div.row
+        div.col.s12
+          h5 Champion Roster
+          table.striped.responsive-table
+            thead
+              tr
+                th(data-field='username') Username
+                th(data-field='season') Season
+                th(data-field='active') Active
+                th(data-field='wins') Wins
+                th(data-field='losses') Losses
+                th(data-field='lane') Lane
+                th(data-field='elo') ELO
+                th(data-field='details') Details
+                th(data-field='champion') Champion
+            tbody
+              each player in user.players
+                tr
+                  td= player.player.username
+                  td= player.season.number
+                  td
+                    if player.active
+                      i.material-icons.green-text check_circle
+                  td= player.wins
+                  td= player.losses
+                  td= player.lane
+                  td= player.visible_elo
+                  td
+                    a.btn(href='/roster/history/' + player.id) View
+                  td
+                    img(src= player.champion.icon).img-responsive
+      div.row
+        div.col.s12.m6
+          h5 Rewards
+          table.striped
+            thead
+              tr
+                th(data-field='name') Name
+                th(data-field='bounty') Bounty
+            tbody
+              each reward in rewards
+                tr
+                  td
+                    a(href= reward.link)= reward.name
+                  td= reward.bounty
+
+  div.parallax-container.overlay
+    div.parallax
+      img(src='/assets/images/static/home-2.jpg')
+
+  script(src='/assets/js/scripts/init-parallax.js')
