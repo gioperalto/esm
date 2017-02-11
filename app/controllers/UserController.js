@@ -67,45 +67,5 @@ module.exports = {
         callback(err,user);
       }
     });
-  },
-
-  // =====================================
-  // Get DOB
-  // =====================================
-  getDOB: function(id, callback) {
-    User.findById(id, function(err, user) {
-      // if there are any errors, return the error
-      if (err)
-        throw err;
-
-      callback(err,user.dob);
-    });
-  },
-
-  // =====================================
-  // Get Experience
-  // =====================================
-  getExperience: function(id, callback) {
-    User.findById(id, function(err, user) {
-      // if there are any errors, return the error
-      if (err)
-        throw err;
-
-      console.log('Experience: ' + user.experience);
-      callback(err,user.experience);
-    });
-  },
-
-  // =====================================
-  // Get Rank
-  // =====================================
-  getRank: function(id, callback) {
-    User.findById(id, function(err, user) {
-      // if there are any errors, return the error
-      if (err)
-        throw err;
-
-      callback(err,user.rank);
-    });
   }
 };
