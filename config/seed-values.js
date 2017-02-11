@@ -7,11 +7,11 @@ module.exports = {
         value: 100,
         link: 'https://gyoperalto.typeform.com/to/ECEHy9'
       },
-      {
-        name: 'Share on Facebook',
-        value: 100,
-        link: '#'
-      }
+      // {
+      //   name: 'Share on Facebook',
+      //   value: 100,
+      //   link: '#'
+      // }
     ],
     analysts: [
       {
