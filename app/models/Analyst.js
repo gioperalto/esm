@@ -30,6 +30,14 @@ var analystSchema = new Schema({
   modified_at: Date
 });
 
+// =====================================
+// METHODS =============================
+// =====================================
+
+analystSchema.virtual('fullName').get(function() {
+  return this.name.first + ' ' + this.name.last;
+});
+
 // on every save, add the date
 analystSchema.pre('save', function(next) {
   // get the current date

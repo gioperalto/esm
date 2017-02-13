@@ -19,3 +19,27 @@
 .fixed-action-btn {
   position: relative;
 }
+
+nav ul a.btn {
+  margin-left: 0px;
+  margin-right: 0px;
+  padding: 0 15px;
+}
+
+a.dropdown-button {
+  text-transform: none;
+}
+
+ul.dropdown-content li a {
+  text-align: center;
+  color: black;
+}
+
+.small {
+  font-size: 75%;
+  font-weight: 300;
+}
+
+.strong {
+  font-weight: bold;
+}

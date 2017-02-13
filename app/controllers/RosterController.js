@@ -10,38 +10,43 @@ var Roster = require('../models/Roster');
 // Import controllers
 var SeasonController = require('./SeasonController');
 var MoodController = require('./MoodController');
+var UserController = require('./UserController');
+var RankController = require('./RankController');
 
 module.exports = {
   generateRosterForPlayer: function(player, callback) {
     // real_elo, visible_elo
-    var real_elo = 750 + Math.round(Math.random() * 500);
-    var visible_elo = 1000;
+    var real_elo = 725 + Math.round(Math.random() * 500);
+    var visible_elo = 849;
 
     SeasonController.getCurrentSeason(function(season, err) {
       MoodController.getRandomMood(function(mood, err) {
-        var champion = player.champions[Math.floor(Math.random() * player.champions.length)];
-        var lane = champion.lanes[Math.floor(Math.random() * champion.lanes.length)];
+        RankController.getRankFromElo(visible_elo, function(rank) {
+          var champion = player.champions[Math.floor(Math.random() * player.champions.length)];
+          var lane = champion.lanes[Math.floor(Math.random() * champion.lanes.length)];
 
-        var roster = new Roster({
-          season: season,
-          champion: champion,
-          lane: lane.lane,
-          tier: lane.tier,
-          player: player,
-          active_mood: mood.threshold,
-          mood: mood,
-          available: false,
-          real_elo: real_elo,
-          visible_elo: visible_elo,
-          value: 0 // TODO: Implement utility method to appraise value
-        });
+          var roster = new Roster({
+            season: season,
+            champion: champion,
+            lane: lane.lane,
+            tier: lane.tier,
+            player: player,
+            active_mood: mood.threshold,
+            mood: mood,
+            rank: rank,
+            available: false,
+            real_elo: real_elo,
+            visible_elo: visible_elo,
+            value: Math.min(roster_item.player.seasons, MAX_SEASONS) * rank.multiplier
+          });
 
-        roster.save(function(err) {
-          if(err) {
-            callback(err);
-          }
+          roster.save(function(err) {
+            if(err) {
+              callback(err);
+            }
 
-          callback(roster);
+            callback(roster);
+          });
         });
       });
     });
@@ -49,33 +54,36 @@ module.exports = {
 
   generateRoster: function(player, callback) {
     // real_elo, visible_elo
-    var real_elo = 750 + Math.round(Math.random() * 500);
-    var visible_elo = 1000;
+    var real_elo = 725 + Math.round(Math.random() * 500);
+    var visible_elo = 849;
 
     SeasonController.getCurrentSeason(function(season, err) {
       MoodController.getRandomMood(function(mood, err) {
-        var champion = player.champions[Math.floor(Math.random() * player.champions.length)];
-        var lane = champion.lanes[Math.floor(Math.random() * champion.lanes.length)];
+        RankController.getRankFromElo(visible_elo, function(rank) {
+          var champion = player.champions[Math.floor(Math.random() * player.champions.length)];
+          var lane = champion.lanes[Math.floor(Math.random() * champion.lanes.length)];
 
-        var roster = new Roster({
-          season: season,
-          champion: champion,
-          lane: lane.lane,
-          tier: lane.tier,
-          player: player,
-          active_mood: mood.threshold,
-          mood: mood,
-          real_elo: real_elo,
-          visible_elo: visible_elo,
-          value: 0 // TODO: Implement utility method to appraise value
-        });
+          var roster = new Roster({
+            season: season,
+            champion: champion,
+            lane: lane.lane,
+            tier: lane.tier,
+            player: player,
+            active_mood: mood.threshold,
+            mood: mood,
+            rank: rank,
+            real_elo: real_elo,
+            visible_elo: visible_elo,
+            value: Math.min(roster_item.player.seasons, MAX_SEASONS) * rank.multiplier
+          });
 
-        roster.save(function(err) {
-          if(err) {
-            callback(err);
-          }
+          roster.save(function(err) {
+            if(err) {
+              callback(err);
+            }
 
-          callback(null);
+            callback(null);
+          });
         });
       });
     });
@@ -95,22 +103,51 @@ module.exports = {
     });
   },
 
+  deactivateRosterPlayer: function(player, callback) {
+    player.active = false;
+    player.save(function(err) {
+      if(err)
+        callback(err);
+
+      callback(null);
+    });
+  },
+
+  deactivateRoster: function(callback) {
+    UserController.sellAllPlayers(function(err) {
+      if(err)
+        callback(err);
+
+      module.exports.getActiveRoster(function(roster, err) {
+        if(err)
+          callback(err);
+
+        async.each(roster, module.exports.deactivateRosterPlayer, function(err) {
+          if(err)
+            callback(err);
+
+          callback(null);
+        });
+      });
+    });
+  },
+
   getActiveRoster: function(callback) {
     Roster.find({
       active: true
     })
-    .populate('champion player mood')
-    .exec(function(err, rosters) {
+    .populate('champion player mood rank')
+    .exec(function(err, roster) {
       if(err)
         callback(err);
       
-      callback(rosters, err);
+      callback(roster, err);
     });
   },
 
   getRosterById: function(id, callback) {
     Roster.findById(id)
-    .populate('champion player mood')
+    .populate('champion player mood rank')
     .exec(function(err, roster_item) {
       if(err)
         callback(err);

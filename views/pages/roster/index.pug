@@ -7,11 +7,11 @@ body
       thead
         tr
           th(data-field='username') Username
-          th(data-field='lane') Lane
+          th(data-field='value')
+            img(src='/assets/images/icons/coin.png' width='32px').valign
           th(data-field='elo') ELO
           th(data-field='rank') Rank
-          th(data-field='age') Age
-          th(data-field='value') Value
+          th(data-field='lane') Lane
           th(data-field='wins') Wins
           th(data-field='losses') Losses
           th(data-field='match_history') Match History
@@ -20,12 +20,11 @@ body
         tbody
           each roster_item in roster
             tr
-              td= roster_item.player.username
-              td= roster_item.lane
+              td.strong= roster_item.player.username
+              td= roster_item.value
               td= roster_item.visible_elo
-              td Bronze
-              td= roster_item.player.age
-              td #{roster_item.value} coin
+              td= roster_item.rank.name
+              td= roster_item.lane
               td= roster_item.wins
               td= roster_item.losses
               td
@@ -33,7 +32,7 @@ body
               td
                 if roster_item.available
                   form(action='/buy/'+roster_item.id method='post')
-                    button(type='submit').btn.green Purchase for $#{roster_item.value}
+                    button(type='submit').btn.green Buy for $#{roster_item.value}
                 else
                   p Contract unavailable
               td

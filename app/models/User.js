@@ -44,6 +44,20 @@ var userSchema = new Schema({
   modified_at: Date
 });
 
+// =====================================
+// METHODS =============================
+// =====================================
+
+userSchema.virtual('at_roster_limit').get(function() {
+  return this.players.length >= this.roster_limit;
+});
+
+userSchema.virtual('roster_upgrade_cost').get(function() {
+  var SQUARE = 2;
+  var BASE_COST = 50;
+  return Math.pow(this.roster_limit,SQUARE) * BASE_COST;
+});
+
 // on every save, add the date
 userSchema.pre('save', function(next) {
   // get the current date

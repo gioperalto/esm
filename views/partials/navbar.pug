@@ -8,11 +8,19 @@ nav.black
           img(src='/assets/images/icons/coin.png' width='32px').valign
         li
           a(href='#')= coin
-      li
-        a(href='/players') Players
-      li
-        a(href='/roster') Roster
+      a.dropdown-button.btn.black(href='#' data-activates='dropdown-manage') Manage
+      ul#dropdown-manage.dropdown-content
+        li
+          a(href='/players') Players
+        li
+          a(href='/roster') Roster
       if login
+        a.dropdown-button.btn.black(href='#' data-activates='dropdown-shop') Shop
+        ul#dropdown-shop.dropdown-content
+          li
+            a(href='/hire') Hire
+          li
+            a(href='/grow') Grow
         li
           a(href='/profile') Profile
         li

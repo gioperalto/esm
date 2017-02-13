@@ -1,5 +1,8 @@
 // app/controllers/UserController.js
 
+// Import modules
+var async = require('async');
+
 // Import models
 var User = require('../models/User');
 var Roster = require('../models/Roster');
@@ -84,18 +87,24 @@ module.exports = {
   getProfileInfo: function(id, callback) {
     User
     .findById(id)
-    .populate('players')
     .exec(function(err, user) {
       if (err)
         throw err;
 
-      Roster.find(user.players)
-      .populate('season champion player mood')
+      Roster.find({
+        '_id': { 
+          $in: user.players
+        }
+      })
+      .populate('season champion player mood rank')
       .exec(function(err, roster) {
         var info = {
           players: user.players.length > 0 ? roster : user.players,
           roster_limit: user.roster_limit,
-          coin: user.coin
+          coin: user.coin,
+          roster_limit: user.roster_limit,
+          roster_upgrade_cost: user.roster_upgrade_cost,
+          at_roster_limit: user.at_roster_limit
         };
 
         callback(info, err);
@@ -132,9 +141,18 @@ module.exports = {
               if(err)
                 callback(err);
 
-              toastMessage = 'You have purchased ' + roster_item.player.username
-                + ' for ' + champ_value + ' coin';
-              callback(toastMessage, user.coin, err);
+              roster_item.available = false;
+              roster_item.save(function(err) {
+                if(err) {
+                  callback(err);
+                } else {
+                  
+                }
+
+                toastMessage = 'You have purchased ' + roster_item.player.username
+                  + ' for ' + champ_value + ' coin';
+                callback(toastMessage, user.coin, err);
+              });
             });
           }
         });
@@ -146,38 +164,137 @@ module.exports = {
     var toastMessage = '';
     User.findById(user_id)
     .exec(function(err, user) {
+      if(err) {
+        callback(err);
+      } else {
+        var index = user.players.indexOf(player_id);
+
+        if(index > -1) {
+          Roster.findById(player_id)
+          .populate('player')
+          .exec(function(err, roster_item) {
+            if(err) {
+              callback(err);
+            } else {
+              user.coin += roster_item.value;
+              user.players.splice(index, 1);
+              user.save(function(err) {
+                if(err) {
+                  callback(err);
+                } else {
+                  roster_item.available = true;
+                  roster_item.save(function(err) {
+                    if(err) {
+                      callback(err);
+                    } else {
+                      toastMessage = roster_item.player.username + ' was sold for ' 
+                        + roster_item.value + ' coin';
+                      callback(toastMessage, user.coin, err);
+                    }
+                  });
+                }
+              });
+            }
+          });
+        } else {
+          toastMessage = 'Roster player does not exist';
+          callback(toastMessage);
+        }
+      }
+    });
+  },
+
+  sellPlayers: function(user, callback) {
+    var asyncTasks = [];
+
+    user.players.forEach(function(player) {
+      asyncTasks.push(function(callback) {
+        module.exports.sellPlayer(user.id, player, function(toastMessage, coin, err) {
+          if(err) {
+            callback(err);
+          } else {
+            console.log(toastMessage);
+            callback();
+          }
+        });
+      });
+    });
+
+    async.parallel(asyncTasks, function(err) {
       if(err)
         callback(err);
+      else
+        callback(null);
+    });
+  },
 
-      var index = user.players.indexOf(player_id);
+  sellAllPlayers: function(callback) {
+    User.find()
+    .exec(function(err, users) {
+      async.each(users, module.exports.sellPlayers, function(err) {
+        if(err)
+          callback(err);
 
-      if(index > -1) {
-        Roster.findById(player_id)
-        .populate('player')
-        .exec(function(err, roster_item) {
+        callback(null);
+      });
+    });
+  },
+
+  buyNewPlayer: function(user_id, callback) {
+    var cost = 50;
+    var toastMessage = '';
+
+    User.findById(user_id)
+    .exec(function(err, user) {
+      if(user.coin < cost) {
+        toastMessage = 'You do not have enough coin to buy a new player.';
+        callback(toastMessage);
+      } else {
+        user.coin -= cost;
+        user.coin_spent += cost;
+        user.save(function(err) {
           if(err)
             callback(err);
-
-          user.coin += roster_item.value;
-          user.players.splice(index, 1);
-          user.save(function(err) {
-            if(err)
-              callback(err);
-
-            roster_item.available = true;
-            roster_item.save(function(err) {
-              if(err)
-                callback(err);
-
-              toastMessage = roster_item.player.username + ' was sold for ' 
-                + roster_item.value + ' coin';
-              callback(toastMessage, user.coin, err);
+          
+          PlayerController.createPlayer(function(player) {
+            RosterController.generateRosterForPlayer(player, function(roster_item) {
+              module.exports.buyPlayer(
+                user_id, 
+                roster_item.id, 
+                function(toastMessage, coin, err) {
+                  callback(toastMessage, coin, err);
+              });
             });
           });
         });
-      } else {
-        toastMessage = 'Roster player does not exist';
+      }
+    });
+  },
+
+  increaseRosterLimit: function(user_id, callback) {
+    var toastMessage = '';
+
+    User.findById(user_id)
+    .exec(function(err, user) {
+      if(err)
+        callback(err);
+
+      if(user.coin < user.roster_upgrade_cost) {
+        toastMessage = 'You do not have enough coin for this upgrade. '
+          + ' It costs ' + user.roster_upgrade_cost + ' coin, and you have '
+            + user.coin + ' coin.';
         callback(toastMessage);
+      } else {
+        user.coin -= user.roster_upgrade_cost;
+        user.coin_spent += user.roster_upgrade_cost;
+        user.roster_limit++;
+        toastMessage = 'Your roster limit is now ' + user.roster_limit;
+        user.save(function(err) {
+          if(err)
+            callback(err);
+
+          callback(toastMessage, user.coin, err);
+        });
       }
     });
   }
