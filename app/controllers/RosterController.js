@@ -22,6 +22,7 @@ module.exports = {
     SeasonController.getCurrentSeason(function(season, err) {
       MoodController.getRandomMood(function(mood, err) {
         RankController.getRankFromElo(visible_elo, function(rank) {
+          var MAX_SEASONS = 60;
           var champion = player.champions[Math.floor(Math.random() * player.champions.length)];
           var lane = champion.lanes[Math.floor(Math.random() * champion.lanes.length)];
 
@@ -37,7 +38,7 @@ module.exports = {
             available: false,
             real_elo: real_elo,
             visible_elo: visible_elo,
-            value: Math.min(roster_item.player.seasons, MAX_SEASONS) * rank.multiplier
+            value: Math.min(player.seasons, MAX_SEASONS) * rank.multiplier
           });
 
           roster.save(function(err) {
@@ -60,6 +61,7 @@ module.exports = {
     SeasonController.getCurrentSeason(function(season, err) {
       MoodController.getRandomMood(function(mood, err) {
         RankController.getRankFromElo(visible_elo, function(rank) {
+          var MAX_SEASONS = 60;
           var champion = player.champions[Math.floor(Math.random() * player.champions.length)];
           var lane = champion.lanes[Math.floor(Math.random() * champion.lanes.length)];
 
@@ -74,7 +76,7 @@ module.exports = {
             rank: rank,
             real_elo: real_elo,
             visible_elo: visible_elo,
-            value: Math.min(roster_item.player.seasons, MAX_SEASONS) * rank.multiplier
+            value: Math.min(player.seasons, MAX_SEASONS) * rank.multiplier
           });
 
           roster.save(function(err) {
