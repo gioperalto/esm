@@ -4,10 +4,13 @@
 var User = require('../models/User');
 
 module.exports = {
-  spendCoin: function(number, user) {
-    user.coin -= number;
-    user.coin_spent += number;
-    user.save();
+  spendCoin: function(number, user_id) {
+    User.findById(user_id)
+    .exec(function(err, user) {
+      user.coin -= number;
+      user.coin_spent += number;
+      user.save();
+    });
   },
 
   purchaseCoin: function(number, user) {
@@ -25,10 +28,10 @@ module.exports = {
   getAllCoin: function(callback) {
     User.aggregate([
     { 
-        $group: {
-            _id: null,
-            coin: { $sum: '$coin'}
-        }
+      $group: {
+        _id: null,
+        coin: { $sum: '$coin'}
+      }
     }
     ], function (err, coin) {
       if(err)
@@ -41,10 +44,10 @@ module.exports = {
   getAllCoinSpent: function(callback) {
     User.aggregate([
     { 
-        $group: {
-            _id: null,
-            coin_spent: { $sum: '$coin_spent'}
-        }
+      $group: {
+        _id: null,
+        coin_spent: { $sum: '$coin_spent'}
+      }
     }
     ], function (err, coin) {
       if(err)
@@ -57,10 +60,10 @@ module.exports = {
   getAllCoinPurchased: function(callback) {
     User.aggregate([
     { 
-        $group: {
-            _id: null,
-            coin_purchased: { $sum: '$coin_purchased'}
-        }
+      $group: {
+        _id: null,
+        coin_purchased: { $sum: '$coin_purchased'}
+      }
     }
     ], function (err, coin) {
       if(err)
@@ -73,10 +76,10 @@ module.exports = {
   getAllCoinAwarded: function(callback) {
     User.aggregate([
     { 
-        $group: {
-            _id: null,
-            coin_awarded: { $sum: '$coin_awarded'}
-        }
+      $group: {
+        _id: null,
+        coin_awarded: { $sum: '$coin_awarded'}
+      }
     }
     ], function (err, coin) {
       if(err)

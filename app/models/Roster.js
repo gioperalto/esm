@@ -25,6 +25,10 @@ var rosterSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Mood'
   },
+  rank: {
+    type: Schema.Types.ObjectId,
+    ref: 'Rank'
+  },
   active: {
     type: Boolean,
     default: true

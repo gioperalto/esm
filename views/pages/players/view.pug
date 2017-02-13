@@ -3,7 +3,8 @@ body
   include ../../partials/navbar.pug
   div.section.white
     div.container
-      h3.header.center= player.fullName
+      h3.header.center #{player.username} 
+        span.small (#{player.fullName})
       p.center
         each star in player.stars
           i.material-icons.stars.orange-text grade

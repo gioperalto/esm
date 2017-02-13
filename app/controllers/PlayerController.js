@@ -12,6 +12,7 @@ var Battle = require('../models/Battle');
 var ChampionController = require('./ChampionController');
 var RosterController = require('./RosterController');
 var MoodController = require('./MoodController');
+var RankController = require('./RankController');
 
 module.exports = {
   getPlayers: function(callback) {
@@ -180,28 +181,34 @@ module.exports = {
       } else {
         roster_item.losses++;
         roster_item.player.losses++;
-        roster_item.real_elo = Math.round(roster_item.real_elo - (REAL_ELO_BUMP * roster_item.mood.loss_multiplier));
-        roster_item.visible_elo = Math.round(roster_item.visible_elo - (VISIBLE_ELO_BUMP * roster_item.mood.loss_multiplier));
         roster_item.active_mood = Math.max(roster_item.active_mood - MOOD_BUMP, MOOD_MIN);
+        if(roster_item.real_elo > 750) {
+          roster_item.real_elo = Math.round(roster_item.real_elo - (REAL_ELO_BUMP * roster_item.mood.loss_multiplier));
+          roster_item.visible_elo = Math.round(roster_item.visible_elo - (VISIBLE_ELO_BUMP * roster_item.mood.loss_multiplier));
+        }
       }
 
       MoodController.setMood(roster_item.active_mood, function(mood, err) {
+        RankController.getRankFromElo(roster_item.visible_elo, function(rank) {
+          var MAX_SEASONS = 60;
 
-        roster_item.mood = mood;
-
-        roster_item.save(function(err) {
-          if(err)
-            callback(err);
-
-          roster_item.player.save(function(err) {
+          roster_item.rank = rank;
+          roster_item.value = rank.value + (Math.min(roster_item.player.seasons, MAX_SEASONS) * rank.multiplier);
+          roster_item.mood = mood;
+          roster_item.save(function(err) {
             if(err)
               callback(err);
 
-            battle.save(function(err) {
+            roster_item.player.save(function(err) {
               if(err)
                 callback(err);
 
-              callback(null);
+              battle.save(function(err) {
+                if(err)
+                  callback(err);
+
+                callback(null);
+              });
             });
           });
         });
@@ -218,5 +225,32 @@ module.exports = {
 
       callback(null);
     });
-  }
+  },
+
+
+  addSeason(player, callback) {
+    player.seasons++;
+    player.save(function(err) {
+      if(err)
+        callback(err);
+
+      callback(null);
+    });
+  },
+
+  addSeasonToPlayers: function(callback) {
+    Player.find()
+    .exec(function(err, players) {
+      if(err)
+        callback(err);
+
+      async.each(players, module.exports.addSeason, function(err) {
+        if(err)
+          callback(err);
+
+        console.log('Added season to all players...');
+        callback(null);
+      });
+    });
+  },
 };
