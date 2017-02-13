@@ -3,6 +3,9 @@
 // Import models
 var Season = require('../models/Season');
 
+// Import controllers
+var PlayerController = require('../controllers/PlayerController');
+
 module.exports = {
   getSeasons: function(callback) {
     Season.find()
@@ -53,7 +56,7 @@ module.exports = {
 
       callback(season, err);
     });
-  }
+  },
 
   nextSeason: function(current_season, callback) {
     var now = new Date();
@@ -66,11 +69,15 @@ module.exports = {
     });
 
     season.save(function(err, season) {
-      if(err) {
+      if(err)
         callback(err)
-      }
 
-      callback(season, err);
+      PlayerController.addSeasonToPlayers(function(err) {
+        if(err)
+          callback(err);
+
+        callback(season, err);
+      });
     });
   }
 };

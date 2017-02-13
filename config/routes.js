@@ -72,9 +72,6 @@ module.exports = function(app, passport) {
     });
   });
 
-	// =====================================
-  // Login page
-  // =====================================
   app.get('/login', isLoggedIn, function(req, res) {
   	res.render('pages/login', {
   		title: 'Login'

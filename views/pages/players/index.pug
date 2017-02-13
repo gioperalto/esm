@@ -17,7 +17,7 @@ body
           tbody
             each player in players
               tr
-                td= player.username
+                td.strong= player.username
                 td= player.fullName
                 td
                   each star in player.stars

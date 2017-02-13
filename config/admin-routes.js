@@ -5,6 +5,8 @@ var PlayerController = require('../app/controllers/PlayerController');
 var RosterController = require('../app/controllers/RosterController');
 var BattleController = require('../app/controllers/BattleController');
 var RewardController = require('../app/controllers/RewardController');
+var TrainerController = require('../app/controllers/TrainerController');
+var AnalystController = require('../app/controllers/AnalystController');
 
 module.exports = function(app, passport) {
   // =====================================
@@ -39,6 +41,7 @@ module.exports = function(app, passport) {
   app.get('/profile', isLoggedIn, function(req, res) {
     UserController.getProfileInfo(req.session.passport.user, function(user, err) {
       RewardController.getAllRewards(function(rewards, err) {
+        req.session.coin = user.coin;
         res.render('pages/users/profile', {
           title: 'Profile',
           rewards: rewards,
@@ -77,6 +80,54 @@ module.exports = function(app, passport) {
 
       console.log(toastMessage);
       res.redirect('/profile');
+    });
+  });
+
+  // =====================================
+  // Hire
+  // =====================================
+  app.get('/hire', isLoggedIn, function(req, res) {
+    TrainerController.getAllTrainers(function(trainers) {
+      AnalystController.getAllAnalysts(function(analysts) {
+        res.render('pages/shop/hire', {
+          title: 'Hire',
+          trainers: trainers,
+          analysts: analysts
+        });
+      });
+    });
+  });
+  app.get('/hire/trainer', isLoggedIn, function(req, res) {
+    res.render('pages/shop/hire', {
+      title: 'Hire Trainer',
+    });
+  });
+
+  // =====================================
+  // Grow
+  // =====================================
+  app.get('/grow', isLoggedIn, function(req, res) {
+    UserController.getProfileInfo(req.session.passport.user, function(user, err) {
+      res.render('pages/shop/grow', {
+        title: 'Grow',
+        user: user
+      });
+    });
+  });
+  app.post('/grow/create', isLoggedIn, function(req, res) {
+    UserController.buyNewPlayer(req.session.passport.user, function(toastMessage, coin, err) {
+      if(coin)
+        req.session.coin = coin;
+      console.log(toastMessage);
+      res.redirect('/grow');
+    });
+  });
+  app.post('/grow/add', isLoggedIn, function(req, res) {
+    UserController.increaseRosterLimit(req.session.passport.user, function(toastMessage, coin, err) {
+      if(coin)
+        req.session.coin = coin;
+      console.log(toastMessage);
+      res.redirect('/grow');
     });
   });
 

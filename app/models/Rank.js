@@ -1,34 +1,27 @@
-// app/models/Trainer.js
+// app/models/Rank.js
 
 // grab the things we need
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 // create a schema
-var trainerSchema = new Schema({
+var rankSchema = new Schema({
   name: {
-    first: {
-      type: String,
-      required: true
-    },
-    last: {
-      type: String,
-      required: true
-    }
+    type: String,
+    required: true
   },
-  cost: {
+  threshold: {
     type: Number,
     required: true
   },
-  depth: {
+  multiplier: {
     type: Number,
     required: true
   },
-  chance: {
+  bonus: {
     type: Number,
     required: true
   },
-  story: String,
   created_at: Date,
   modified_at: Date
 });
@@ -37,12 +30,12 @@ var trainerSchema = new Schema({
 // METHODS =============================
 // =====================================
 
-trainerSchema.virtual('fullName').get(function() {
-  return this.name.first + ' ' + this.name.last;
+rankSchema.virtual('value').get(function() {
+  return this.multiplier * this.bonus;
 });
 
 // on every save, add the date
-trainerSchema.pre('save', function(next) {
+rankSchema.pre('save', function(next) {
   // get the current date
   var currentDate = new Date();
   
@@ -56,7 +49,7 @@ trainerSchema.pre('save', function(next) {
   next();
 });
 
-var Trainer = mongoose.model('Trainer', trainerSchema);
+var Rank = mongoose.model('Rank', rankSchema);
 
 // make this available to our users in our Node applications
-module.exports = Trainer;
+module.exports = Rank;
