@@ -16,7 +16,7 @@ mongoose.connect(configDB.url);
 // =====================================
 // Battle scheduling
 // =====================================
-cron.schedule('*/15 * * * * *', function(){
+cron.schedule('*/15 8-18 * * *', function(){
   console.log('Beginning all matches...');
   RosterController.getActiveRoster(function(roster, err) {
     if(err)
