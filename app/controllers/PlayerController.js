@@ -182,7 +182,7 @@ module.exports = {
         roster_item.losses++;
         roster_item.player.losses++;
         roster_item.active_mood = Math.max(roster_item.active_mood - MOOD_BUMP, MOOD_MIN);
-        if(roster_item.real_elo > 750) {
+        if(roster_item.visible_elo > 750) {
           roster_item.real_elo = Math.round(roster_item.real_elo - (REAL_ELO_BUMP * roster_item.mood.loss_multiplier));
           roster_item.visible_elo = Math.round(roster_item.visible_elo - (VISIBLE_ELO_BUMP * roster_item.mood.loss_multiplier));
         }
