@@ -84,6 +84,17 @@ module.exports = {
     });
   },
 
+  getUser: function(id, callback) {
+    User
+    .findById(id)
+    .exec(function(err, user) {
+      if (err)
+        throw err;
+
+      callback(user, err);
+    });
+  },
+
   getProfileInfo: function(id, callback) {
     User
     .findById(id)
@@ -99,6 +110,7 @@ module.exports = {
       .populate('season champion player mood rank')
       .exec(function(err, roster) {
         var info = {
+          id: user.id,
           players: user.players.length > 0 ? roster : user.players,
           roster_limit: user.roster_limit,
           coin: user.coin,
@@ -160,59 +172,54 @@ module.exports = {
     });
   },
 
-  sellPlayer: function(user_id, player_id, callback) {
+  sellPlayer: function(user, player_id, callback) {
     var toastMessage = '';
-    User.findById(user_id)
-    .exec(function(err, user) {
-      if(err) {
-        callback(err);
-      } else {
-        var index = user.players.indexOf(player_id);
+    var index = user.players.indexOf(player_id);
 
-        if(index > -1) {
-          Roster.findById(player_id)
-          .populate('player')
-          .exec(function(err, roster_item) {
+    if(index > -1) {
+      Roster.findById(player_id)
+      .populate('player')
+      .exec(function(err, roster_item) {
+        if(err) {
+          callback(err);
+        } else {
+          user.coin += roster_item.value;
+          user.players.splice(index, 1);
+          user.save(function(err) {
             if(err) {
               callback(err);
             } else {
-              user.coin += roster_item.value;
-              user.players.splice(index, 1);
-              user.save(function(err) {
+              roster_item.available = true;
+              roster_item.save(function(err) {
                 if(err) {
                   callback(err);
                 } else {
-                  roster_item.available = true;
-                  roster_item.save(function(err) {
-                    if(err) {
-                      callback(err);
-                    } else {
-                      toastMessage = roster_item.player.username + ' was sold for ' 
-                        + roster_item.value + ' coin';
-                      callback(toastMessage, user.coin, err);
-                    }
-                  });
+                  toastMessage = roster_item.player.username + ' was sold for ' 
+                    + roster_item.value + ' coin';
+                  callback(toastMessage, user.coin, err);
                 }
               });
             }
           });
-        } else {
-          toastMessage = 'Roster player does not exist';
-          callback(toastMessage);
         }
-      }
-    });
+      });
+    } else {
+      toastMessage = 'Roster player does not exist';
+      callback(toastMessage);
+    }
   },
 
   sellPlayers: function(user, callback) {
     var asyncTasks = [];
+    var coin = 0;
 
     user.players.forEach(function(player) {
       asyncTasks.push(function(callback) {
-        module.exports.sellPlayer(user.id, player, function(toastMessage, coin, err) {
+        module.exports.sellPlayer(user, player, function(toastMessage, coin, err) {
           if(err) {
             callback(err);
           } else {
+            coin += coin;
             console.log(toastMessage);
             callback();
           }
@@ -221,10 +228,11 @@ module.exports = {
     });
 
     async.parallel(asyncTasks, function(err) {
-      if(err)
+      if(err) {
         callback(err);
-      else
-        callback(null);
+      } else {
+        callback(coin, err);
+      }
     });
   },
 
@@ -297,5 +305,9 @@ module.exports = {
         });
       }
     });
+  },
+
+  trainPlayer: function(roster_item_id, trainer_id, callback) {
+    // TODO: Implement train player logic
   }
 };

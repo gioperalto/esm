@@ -10,6 +10,10 @@ var moodSchema = new Schema({
     type: String,
     required: true
   },
+  color: {
+    type: String,
+    required: true
+  },
   threshold: {
     type: Number,
     required: true

@@ -28,7 +28,7 @@ body#home
                   td= trainer.depth
                   td #{trainer.chance}%
                   td
-                    a.btn-floating.waves-effect(href='/hire/trainer')
+                    a(href='/hire/trainer/'+trainer.id).btn-floating.waves-effect
                       i.material-icons search
         div.col.s12.m6
           h5 Hire an analyst
