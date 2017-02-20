@@ -126,24 +126,10 @@ module.exports = {
     var tier_value = tiers[roster_item.tier] * 20 / 100;
 
     // TODO: have function to calculate % based on ELO
+    var MAX_ELO_VAL = 35;
+    var MIN_ELO_VAL = 0;
     var elo_diff = roster_item.real_elo - roster_item.visible_elo;
-    var elo_value = elo_diff > 100 
-      ?
-        35
-      :
-        elo_diff > 50
-        ?
-          25
-        :
-          elo_diff > 25
-          ?
-            15
-          :
-            elo_diff > -25
-            ?
-              5
-            :
-              0;
+    var elo_value = Math.max(Math.min(Math.floor(elo_diff/10),MAX_ELO_VAL),MIN_ELO_VAL);
 
     // TODO: function to calculate exp val
     var exp_val = Math.min(15, roster_item.player.experience);
