@@ -862,30 +862,35 @@ module.exports = {
     moods: [
       {
         name: 'Motivated',
+        color: 'green',
         threshold: 7,
         win_multiplier: 2,
         loss_multiplier: 0.25
       },
       {
         name: 'Calm',
+        color: 'blue',
         threshold: 4,
         win_multiplier: 1.5,
         loss_multiplier: 0.5
       },
       {
         name: 'Anxious',
+        color: 'yellow',
         threshold: 2,
         win_multiplier: 1,
         loss_multiplier: 1
       },
       {
         name: 'Bored',
+        color: 'orange',
         threshold: 1,
         win_multiplier: 0.5,
         loss_multiplier: 1.5
       },
       {
         name: 'Apathetic',
+        color: 'red',
         threshold: 0,
         win_multiplier: 0.25,
         loss_multiplier: 2

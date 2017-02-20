@@ -70,16 +70,37 @@ module.exports = function(app, passport) {
   });
   app.post('/sell/:id', isLoggedIn, function(req, res) {
     var player_id = req.params.id;
-
-    UserController.sellPlayer(req.session.passport.user, player_id, function(toastMessage, coin, err) {
+    UserController.getUser(req.session.passport.user, function(user, err) {
       if(err)
         console.log(err);
 
-      if(coin)
-        req.session.coin = coin;
+      UserController.sellPlayer(user, player_id, function(toastMessage, coin, err) {
+        if(err)
+          console.log(err);
 
-      console.log(toastMessage);
-      res.redirect('/profile');
+        if(coin)
+          req.session.coin = coin;
+
+        console.log(toastMessage);
+        res.redirect('/profile');
+      });
+    });
+  });
+  app.post('/sell/all/:id', isLoggedIn, function(req, res) {
+    var player_id = req.params.id;
+    UserController.getUser(req.session.passport.user, function(user, err) {
+      if(err)
+        console.log(err);
+
+      UserController.sellPlayers(user, function(coin, err) {
+        if(err)
+          console.log(err);
+
+        if(coin)
+          req.session.coin = coin;
+
+        res.redirect('/profile');
+      });
     });
   });
 
@@ -97,9 +118,23 @@ module.exports = function(app, passport) {
       });
     });
   });
-  app.get('/hire/trainer', isLoggedIn, function(req, res) {
-    res.render('pages/shop/hire', {
-      title: 'Hire Trainer',
+  app.get('/hire/trainer/:id', isLoggedIn, function(req, res) {
+    var trainer_id = req.params.id
+    UserController.getProfileInfo(req.session.passport.user, function(user, err) {
+      TrainerController.getTrainerById(trainer_id, function(trainer, err) {
+        res.render('pages/shop/trainer', {
+          title: 'Hire Trainer',
+          user: user,
+          trainer: trainer
+        });
+      });
+    });
+  });
+  app.post('/hire/trainer/:id', isLoggedIn, function(req, res) {
+    var roster_item_id = req.body.player_id
+    var trainer_id = req.params.id
+    UserController.trainPlayer(roster_item_id, trainer_id, function(user, err) {
+      res.redirect('/profile');
     });
   });
 

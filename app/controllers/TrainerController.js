@@ -13,5 +13,15 @@ module.exports = {
 
       callback(trainers, err);
     });
+  },
+
+  getTrainerById: function(id, callback) {
+    Trainer.findById(id)
+    .exec(function(err, trainer) {
+      if(err)
+        callback(err);
+
+      callback(trainer, err);
+    });
   }
 };

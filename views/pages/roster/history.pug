@@ -8,14 +8,12 @@ body
         thead
           tr
             th(data-field='created') Date played
-            th(data-field='mood') Mood
             th(data-field='victory') Win/Loss
             th(data-field='opponent') Opponent
           tbody
             each battle in battles
               tr
                 td= battle.created_at
-                td= battle.active_mood
                 td
                   if battle.victory
                     span.green-text Win
