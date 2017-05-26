@@ -43,6 +43,7 @@ app.use(passport.session()); // persistent login sessions
 // ---------------------------------------------------------
 // Database configurations
 // ---------------------------------------------------------
+mongoose.Promise = require('bluebird');
 mongoose.connect(configDB.url);
 seed.seedDB();
 
