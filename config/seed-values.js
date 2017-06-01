@@ -327,7 +327,7 @@ module.exports = {
           first: 'Miranda',
           last: 'Wallard'
         },
-        cost: 100,
+        cost: 25,
         depth: 2,
         chance: 80,
         story: 'Miranda is the best of the best. She frequently doles out priceless life lessons to some of the most iconic figures in humanity.'
@@ -337,7 +337,7 @@ module.exports = {
           first: 'Jay',
           last: 'Lopez'
         },
-        cost: 50,
+        cost: 15,
         depth: 1,
         chance: 40,
         story: 'Claims to be the long lost brother of the popular Tai Lopez. His advice has also helped a few famous athletes go a long way.'
@@ -347,7 +347,7 @@ module.exports = {
           first: 'Leroy',
           last: 'Johnson'
         },
-        cost: 25,
+        cost: 10,
         depth: 1,
         chance: 20,
         story: 'Leroy is a fairly well-known life coach at the company he works for. In his spare time he helps those in need find their purpose.'
@@ -357,7 +357,7 @@ module.exports = {
           first: 'Ashley',
           last: 'Burtham'
         },
-        cost: 10,
+        cost: 5,
         depth: 1,
         chance: 10,
         story: 'Ashley motivates herself every day to wake up. Never underestimate her strong will.'
