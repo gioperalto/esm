@@ -1,3 +1,4 @@
+'use strict'
 // config/passport.js
 
 var LocalStrategy   = require('passport-local').Strategy;
@@ -6,20 +7,20 @@ var User = require('../app/models/User');
 var UserController = require('../app/controllers/UserController');
 var configAuth = require('./auth');
 
-module.exports = function(passport) {
-
+module.exports = (passport) => {
+  
   // =====================================
   // Passport session setup
   // ====================================='
   // required for persistent login sessions
 
   // used to serialize the user for the session
-  passport.serializeUser(function(user, done) {
+  passport.serializeUser( (user, done) => {
     done(null, user.id);
   });
 
   // used to deserialize the user
-  passport.deserializeUser(function(id, done) {
+  passport.deserializeUser( (id, done) => {
     User.findById(id, function(err, user) {
       done(err, user);
     });
@@ -34,8 +35,8 @@ module.exports = function(passport) {
       passwordField : 'password',
       passReqToCallback : true
     },
-    function(req, email, password, done) {
-      User.findOne({ 'email' :  email }, function(err, user) {
+    (req, email, password, done) => {
+      User.findOne({ 'email' :  email }, (err, user) => {
           // if there are any errors
           if (err)
             return done(err);
@@ -71,7 +72,7 @@ module.exports = function(passport) {
     callbackURL: configAuth.facebookAuth.callbackURL,
     profileFields: ['email']
   },
-  function(accessToken, refreshToken, profile, cb) {
+  (accessToken, refreshToken, profile, cb) => {
     console.log(profile);
     UserController.findOrCreateFbUser(profile, function (err, user) {
       return cb(err, user);
