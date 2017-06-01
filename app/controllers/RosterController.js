@@ -44,9 +44,9 @@ module.exports = {
           roster.save(function(err) {
             if(err) {
               callback(err);
+            } else {
+              callback(roster);
             }
-
-            callback(roster);
           });
         });
       });
@@ -82,9 +82,9 @@ module.exports = {
           roster.save(function(err) {
             if(err) {
               callback(err);
+            } else {
+              callback(null);
             }
-
-            callback(null);
           });
         });
       });
@@ -97,10 +97,11 @@ module.exports = {
     .populate('champions')
     .exec(function(err, players) {
       async.each(players, module.exports.generateRoster, function(err) {
-        if(err)
+        if(err) {
           callback(err);
-
-        callback(null);
+        } else {
+          callback(null);
+        }
       });
     });
   },
@@ -108,29 +109,32 @@ module.exports = {
   deactivateRosterPlayer: function(player, callback) {
     player.active = false;
     player.save(function(err) {
-      if(err)
+      if(err) {
         callback(err);
-
-      callback(null);
+      } else {
+        callback(null);
+      }
     });
   },
 
   deactivateRoster: function(callback) {
     UserController.sellAllPlayers(function(err) {
-      if(err)
+      if(err) {
         callback(err);
-
-      module.exports.getActiveRoster(function(roster, err) {
-        if(err)
-          callback(err);
-
-        async.each(roster, module.exports.deactivateRosterPlayer, function(err) {
+      } else {
+        module.exports.getActiveRoster(function(roster, err) {
           if(err)
             callback(err);
 
-          callback(null);
+          async.each(roster, module.exports.deactivateRosterPlayer, function(err) {
+            if(err) {
+              callback(err);
+            } else {
+              callback(null);
+            }
+          });
         });
-      });
+      }
     });
   },
 
@@ -140,10 +144,11 @@ module.exports = {
     })
     .populate('champion player mood rank')
     .exec(function(err, roster) {
-      if(err)
+      if(err) {
         callback(err);
-      
-      callback(roster, err);
+      } else {
+        callback(roster, err);
+      }      
     });
   },
 
@@ -151,10 +156,11 @@ module.exports = {
     Roster.findById(id)
     .populate('champion player mood rank')
     .exec(function(err, roster_item) {
-      if(err)
+      if(err) {
         callback(err);
-
-      callback(roster_item, err);
+      } else {
+        callback(roster_item, err);
+      }
     });
   }
 };
