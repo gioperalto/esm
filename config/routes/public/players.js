@@ -7,18 +7,18 @@ module.exports = (app, passport, isLoggedIn) => {
   // =====================================
   // Players
   // =====================================
-  app.get('/players', isLoggedIn, function(req, res) {
-    PlayerController.getPlayers(function(players, err) {
+  app.get('/players', isLoggedIn, (req, res) => {
+    PlayerController.getPlayers((players, err) => {
       res.render('pages/players', {
         title: 'Players',
         players: players
       });
     });
   });
-  app.get('/players/:id', isLoggedIn, function(req, res) {
+  app.get('/players/:id', isLoggedIn, (req, res) => {
     var id = req.params.id;
 
-    PlayerController.getPlayerById(id, function(player, err) {
+    PlayerController.getPlayerById(id, (player, err) => {
       res.render('pages/players/view', {
         title: 'View Player',
         player: player
