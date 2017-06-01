@@ -1,52 +1,57 @@
+'use strict'
 // daemon.js
 
 // Include modules
-var mongoose     = require('mongoose');
-var configDB     = require('./config/database');
-var cron         = require('node-cron');
+let mongoose     = require('mongoose'),
+    configDB     = require('./config/database'),
+    cron         = require('node-cron');
 
 // Include controllers
-var RosterController = require('./app/controllers/RosterController');
-var PlayerController = require('./app/controllers/PlayerController');
-var SeasonController = require('./app/controllers/SeasonController');
+let RosterController = require('./app/controllers/RosterController'),
+    PlayerController = require('./app/controllers/PlayerController'),
+    SeasonController = require('./app/controllers/SeasonController');
 
 // Connect to db
+mongoose.Promise = require('bluebird');
 mongoose.connect(configDB.url);
 
 // =====================================
 // Battle scheduling
 // =====================================
-cron.schedule('*/15 8-18 * * *', function(){
+cron.schedule('*/15 8-18 * * *', ()=> {
   console.log('Beginning all matches...');
-  RosterController.getActiveRoster(function(roster, err) {
+  RosterController.getActiveRoster((roster, err) => {
     if(err)
-      console.log(err);
+      throw err;
 
-    PlayerController.battle(roster, function(err) {
+    PlayerController.battle(roster, (err) => {
       if(err)
-        console.log(err);
+        throw err;
     });
   });
 });
 
-cron.schedule('59 23 * * Sun', function() {
+// =====================================
+// Moving to a new season
+// =====================================
+cron.schedule('0 0 * * Mon', () => {
   console.log('Moving to new season...');
 
-  SeasonController.getCurrentSeason(function(season, err) {
+  SeasonController.getCurrentSeason((season, err) => {
     if(err)
       console.log(err);
 
-    SeasonController.nextSeason(season, function(new_season, err) {
+    SeasonController.nextSeason(season, (new_season, err) => {
       if(err)
         console.log(err);
 
       console.log('Season ' + new_season.number + ' created...');
-      RosterController.deactivateRoster(function(err) {
+      RosterController.deactivateRoster((err) => {
         if(err)
           console.log(err);
 
         console.log('Deactivated all players from season ' + season.number);
-        RosterController.generate(function(err) {
+        RosterController.generate((err) => {
           if(err)
             console.log(err);
 
