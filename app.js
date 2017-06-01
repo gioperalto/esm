@@ -1,3 +1,4 @@
+'use strict'
 // app.js
 
 // ---------------------------------------------------------
@@ -5,16 +6,17 @@
 // ---------------------------------------------------------
 
 // Declare variables
-var express      = require('express');
-var app          = express();
-var mongoose     = require('mongoose');
-var passport     = require('passport');
-var cookieParser = require('cookie-parser');
-var bodyParser   = require('body-parser');
-var session      = require('express-session');
-var configDB     = require('./config/database');
-var seed         = require('./seed');
-var port         = process.env.PORT || 1337;
+let express      = require('express'),
+    app          = express(),
+    mongoose     = require('mongoose'),
+    passport     = require('passport'),
+    cookieParser = require('cookie-parser'),
+    bodyParser   = require('body-parser'),
+    session      = require('express-session'),
+    configDB     = require('./config/database'),
+    seed         = require('./seed'),
+    auth         = require('./app/utils/auth'),
+    port         = process.env.PORT || 1337;
 
 // Allow Express to serve static files in "public" directory
 app.use(express.static('public'));
@@ -48,15 +50,38 @@ mongoose.connect(configDB.url);
 seed.seedDB();
 
 // ---------------------------------------------------------
-// API Endpoints
+// Route configurations
 // ---------------------------------------------------------
-require('./config/api-endpoints')(app);
-
-// ---------------------------------------------------------
-// Routes
-// ---------------------------------------------------------
-require('./config/routes')(app, passport);
-require('./config/admin-routes')(app, passport);
+let routes = {
+  admin: [
+    'grow',
+    'hire',
+    'transactions',
+    'users'
+  ],
+  api: [
+    'battles',
+    'champions',
+    'moods',
+    'players',
+    'rosters',
+    'seasons'
+  ],
+  public: [
+    'players',
+    'roster',
+    'users'
+  ]
+};
+for(let key in routes) {
+  for(let route of routes[key]) {
+    require('./config/routes/' + key + '/' + route)(
+      app,
+      passport,
+      auth.isLoggedIn
+    );
+  }
+}
 
 // ---------------------------------------------------------
 // Launch
