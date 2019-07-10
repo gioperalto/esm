@@ -29,3 +29,21 @@ On the players page you can see the active LoL players currently in the league. 
 ## Roster Page
 The roster page has the list of active players this season as well as their champion and lane. You can also see the cost and match history of a player on this page and whether or not their contract is available for purchase (assuming you have the funds).
 ![Alt](/public/assets/images/static/screen-shot-roster.png "Roster Page")
+
+## Profile Page
+After creating an account (with email or FB) and logging in, you will be redirected to your profile page. This is where you can see any players you currently have under contract as well as their stats. At any time you can sell a player, but depending on that player's performance you can gain or lose money.
+![Alt](/public/assets/images/static/screen-shot-profile.png "Profile Page")
+
+## Grow Page
+This page allows you as a user to grow, either by paying to create your own player with random stats (whose contract comes with the purchase) or by becoming able to manage more players simultaneously. The cost of adding a player to your roster increases as you accumulate more slots.
+![Alt](/public/assets/images/static/screen-shot-grow.png "Grow Page")
+
+## Hire Page
+As an E-Sports Manager, you can either hire an analyst or a trainer. Trainers motivate your players to perform better. Analysts observe play history and do the homework to equip you with the best prospects.
+![Alt](/public/assets/images/static/screen-shot-hire.png "Hire Page")
+
+## Train Page
+Different trainers have different odds in successfully motivating your players more. Good enough trainers can also make significant strides in improving the mood of the players you manage.
+![Alt](/public/assets/images/static/screen-shot-train.png "Train Page")
+
+
