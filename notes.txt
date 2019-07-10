@@ -1,15 +1,142 @@
-Fix money glitch #done
-Add 5 players per account created #done
-3 players per day added
-retire players at age of 35
-players age 1 year a week
-user profile
-make it available online (put the site up lol) #done
-graph that shows elo gained and lost past month
-player profiles that show the graph and match history #done
-add friend button, make it like facebook style lol i guess, showing their team #that can wait
-add forums #that can wait
-make tournaments that let you enter them and then see results at midnight
-LCS style where ppl submit their applications with their fame and top 10 highest fames get chosen to play in the LCS.
+New ESM:
+- DB contains 25+ players that develop over time and change from season to season (like stocks)
+  - Roster will be added to as game scales
+  - Each player will have a list of favorite champions they (randomly) choose from each season to play with
+  - Champion determines lane they will play in (some champions work in multiple lanes)
+- Each new season
+  - Champion each player plays as randomizes
+  - ELO for each player resets (visibly 1k, + or - 250 hidden)
+- A standard ELO bump is now 4 hidden ELO, 8 visible ELO
+- A player match consists of:
+  - Champion a player matched up against [influences odds of winning]
+  - Mood the player was in as they played (they win, mood goes up; they lose, mood goes down)
+    - Motivated (7/7; doubles ELO gained while winning, loss is 0.25x standard)
+    - Calm (4/7; ELO gained from a win is 1.5x standard ELO bump, loss is 0.5x standard)
+    - Anxious (2/7; ELO gained from a win is 1.0x standard ELO bump, loss is 1.0x standard)
+    - Bored (1/7; ELO gained from a win is 0.5x standard ELO bump, loss is 1.5x standard)
+    - Apathetic (0/7; ELO gained from a win is 0.25x standard ELO bump, loss is 2x standard)
+  - New algorithm to determine winning odds (vs opponent):
+    - Champion who they face off accounts for 30%
+    - Tier of their lane/champ combo accounts for 20%
+    - difference in ELO accounts for 35% (opponent doesn't get this stat) [c = real - visible]
+      - if c > 100, 35/35
+      - else if c > 50, 25/35
+      - else if c > 25, 15/35
+      - else if c > -25, 5/35
+      - else 0/35
+    - Experience accounts for up to 15%
 
+Lanes and hard counters:
+Tiers (tier bonus):
+  - S (100%)
+  - A (85%)
+  - B (70%)
+  - C (55%)
+  - D (40%)
+  - E (25%)
+  - F (10%)
+Top:
+  - Yasuo (S)
+  - Jax (C)
+  - Vladimir (C)
+  - Nasus (B)
+  - Nautilus (S)
+  - Sion (B)
+  - Shen (B)
+  - Fizz (C)
+  - Volibear (E)
+  - Lulu (D)
+Mid:
+  - Yasuo (C)
+  - Ezriel (C)
+  - Twisted Fate (A)
+  - Anivia (A)
+  - Veigar (B)
+  - Brand (B)
+  - Diana (C)
+  - Karthus (C)
+  - Annie (S)
+  - Zed (B)
+  - Fizz (B)
+  - Xerath (D)
+  - Vladimir (E)
+  - Syndra (A)
+  - Nidalee (F)
+  - Lulu (D)
+Jungle:
+  - Vi (S)
+  - Jax (D)
+  - Shaco (A)
+  - Elise (A)
+  - Nidalee (C)
+  - Zac (B)
+  - Volibear (B)
+  - Rammus (D)
+  - Amumu (A)
+  - Nautilus (F)
+  - Gragas (B)
+  - Udyr (E)
+  - Kha'Zix (A)
+  - Sejuani (A)
+  - Trundle (C)
+  - Scion (D)
+  - Nunu (E)
+  - Shen (F)
+ADC:
+  - Ezreal (A)
+  - Ashe (A)
+  - Vayne (S)
+  - Sivir (A)
+  - Twich (S)
+  - Caitlyn (S)
+  - Corki (D)
+Support:
+  - Lulu (B)
+  - Soraka (A)
+  - Morgana (A)
+  - Shen (C)
+  - Annie (E)
+  - Sion (C)
+  - Braum (A)
+  - Thresh (A)
+  - Nautilus (C)
+  - Brand (A)
+  - Trundle (C)
+  - Nunu (F)
 
+Hall of Fame:
+  Retired players who have won at least 1 season will go into the Hall of Fame
+
+Following players:
+  When a new player joins on a Tuesday, he/she can follow the players on the roster and see how they perform
+  in matches with their champions
+Pre-Drafting:
+  Players can select who they will draft in the next season in advance
+
+Hire:
+  - Analysts:
+    - 1000 coin for John Isadora (PhD in Economics from Harvard) [5 seasons]
+    - 750 coin for Matsuchi Miamori (MS in Comp Sci from Tokyo U) [4 seasons]
+    - 500 coin for Billiam Yates (BA from Boston College) [3 seasons]
+    - 250 coin for Nad Nelson (Associates degree from Community College) [2 seasons]
+    - 100 coin for Joey Doodab (enrolled in High School) [1 season]
+  - Coaches:
+    - 100 coin for Miranda Wallard [+2 mood]
+    - 50 coin for Jay Lopez [+1 mood]
+    - 25 coin for Leroy Johnson [40% +1 mood]
+    - 10 coin for Ashley Burtham [20% +1 mood]
+
+Pages:
+- News (new roster adds, tournaments, promotions)
+- Goals
+- Roster
+- Hire
+- Tournaments
+- Season
+- Hall of Fame
+
+Pricing (for coin purchases):
+- $1 ($0.67) = 100 coin
+- $5 (4.55) = 600 coin (save 20%)
+- $10 (9.41) = 1400 coin (save 40%)
+- $20 (19.18) = 3600 coin (save 80%)

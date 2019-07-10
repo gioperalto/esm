@@ -1,0 +1,42 @@
+include ../../partials/header.pug
+body#home
+  include ../../partials/navbar.pug
+  div.section.white
+    div.container.center
+      h4 Grow
+      div.row
+        div.col.s12.m6
+          h5 Create a player
+          div.card-panel.grey.lighten-5.z-depth-1
+            div.row.valign-wrapper
+              div.col.s2
+                img(src='/assets/images/icons/coin.png' width='32px')
+                h5 50
+              div.col.s10
+                p.
+                  Generate a player with a guaranteed contract for the current season.
+                p.strong.
+                  If you are at your roster limit this will not work.
+                if !user.at_roster_limit
+                  form(action='/grow/create' method='post')
+                    button.btn(type='submit') Create
+        div.col.s12.m6
+          h5 Add roster space
+          div.card-panel.grey.lighten-5.z-depth-1
+            div.row.valign-wrapper
+              div.col.s2
+                img(src='/assets/images/icons/coin.png' width='32px')
+                h5 #{user.roster_upgrade_cost}
+              div.col.s10
+                  p.
+                    Increase the number of active players you can manage at one time. 
+                  p.strong.
+                    Currently your limit is #{user.roster_limit}.
+                  form(action='/grow/add' method='post')
+                    button.btn(type='submit') Add
+
+  div.parallax-container.overlay
+    div.parallax
+      img(src='/assets/images/static/home-2.jpg')
+
+  script(src='/assets/js/scripts/init-parallax.js')
