@@ -45,5 +45,3 @@ As an E-Sports Manager, you can either hire an analyst or a trainer. Trainers mo
 ## Train Page
 Different trainers have different odds in successfully motivating your players more. Good enough trainers can also make significant strides in improving the mood of the players you manage.
 ![Alt](/public/assets/images/static/screen-shot-train.png "Train Page")
-
-

@@ -1,4 +1,6 @@
-New ESM:
+New ESM
+-------
+
 - DB contains 25+ players that develop over time and change from season to season (like stocks)
   - Roster will be added to as game scales
   - Each player will have a list of favorite champions they (randomly) choose from each season to play with
@@ -25,6 +27,19 @@ New ESM:
       - else if c > -25, 5/35
       - else 0/35
     - Experience accounts for up to 15%
+
+Hire:
+  - Analysts:
+    - 1000 coin for John Isadora (PhD in Economics from Harvard) [5 seasons]
+    - 750 coin for Matsuchi Miamori (MS in Comp Sci from Tokyo U) [4 seasons]
+    - 500 coin for Billiam Yates (BA from Boston College) [3 seasons]
+    - 250 coin for Nad Nelson (Associates degree from Community College) [2 seasons]
+    - 100 coin for Joey Doodab (enrolled in High School) [1 season]
+  - Coaches:
+    - 100 coin for Miranda Wallard [+2 mood]
+    - 50 coin for Jay Lopez [+1 mood]
+    - 25 coin for Leroy Johnson [40% +1 mood]
+    - 10 coin for Ashley Burtham [20% +1 mood]
 
 Lanes and hard counters:
 Tiers (tier bonus):
@@ -104,6 +119,9 @@ Support:
   - Trundle (C)
   - Nunu (F)
 
+ROADMAP
+-------
+
 Hall of Fame:
   Retired players who have won at least 1 season will go into the Hall of Fame
 
@@ -112,19 +130,6 @@ Following players:
   in matches with their champions
 Pre-Drafting:
   Players can select who they will draft in the next season in advance
-
-Hire:
-  - Analysts:
-    - 1000 coin for John Isadora (PhD in Economics from Harvard) [5 seasons]
-    - 750 coin for Matsuchi Miamori (MS in Comp Sci from Tokyo U) [4 seasons]
-    - 500 coin for Billiam Yates (BA from Boston College) [3 seasons]
-    - 250 coin for Nad Nelson (Associates degree from Community College) [2 seasons]
-    - 100 coin for Joey Doodab (enrolled in High School) [1 season]
-  - Coaches:
-    - 100 coin for Miranda Wallard [+2 mood]
-    - 50 coin for Jay Lopez [+1 mood]
-    - 25 coin for Leroy Johnson [40% +1 mood]
-    - 10 coin for Ashley Burtham [20% +1 mood]
 
 Pages:
 - News (new roster adds, tournaments, promotions)
