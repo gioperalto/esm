@@ -209,22 +209,66 @@ module.exports = {
     }
   },
 
+  sellFirstPlayer: function(user, player_id, callback) {
+    var toastMessage = '';
+    var index = 0;
+
+    Roster.findById(player_id)
+    .populate('player')
+    .exec(function(err, roster_item) {
+      if(err) {
+        callback(err);
+      } else {
+        var players = user.players;
+        var removedPlayer = players.splice(index, 1);
+
+        user.coin += roster_item.value;
+        user.players = players;
+        user.save(function(err) {
+          if(err) {
+            callback(err);
+          } else {
+            roster_item.available = true;
+            roster_item.save(function(err) {
+              if(err) {
+                callback(err);
+              } else {
+                console.log('Index to be spliced: ' + index);
+                console.log('players: ' + players);
+                console.log('removed player: ' + removedPlayer);
+                toastMessage = roster_item.player.username + ' was sold for ' 
+                  + roster_item.value + ' coin';
+                callback(toastMessage, user.coin, err);
+              }
+            });
+          }
+        });
+      }
+    });
+  },
+
   sellPlayers: function(user, callback) {
     var asyncTasks = [];
     var coin = 0;
 
-    user.players.forEach(function(player) {
-      asyncTasks.push(function(callback) {
-        module.exports.sellPlayer(user, player, function(toastMessage, coin, err) {
+    async.each(user.players, function(player, callback) {
+      asyncTasks.push(function(cb) {
+        module.exports.sellFirstPlayer(user, player, function(toastMessage, coin, err) {
           if(err) {
-            callback(err);
+            cb(err);
           } else {
             coin += coin;
             console.log(toastMessage);
-            callback();
+            cb();
           }
         });
       });
+    }, function(err) {
+      if(err) {
+        callback(err);
+      } else {
+        callback(null);
+      }
     });
 
     async.parallel(asyncTasks, function(err) {
@@ -239,12 +283,17 @@ module.exports = {
   sellAllPlayers: function(callback) {
     User.find()
     .exec(function(err, users) {
-      async.each(users, module.exports.sellPlayers, function(err) {
-        if(err)
-          callback(err);
-
-        callback(null);
-      });
+      if(err) {
+        callback(err);
+      } else {
+        async.each(users, module.exports.sellPlayers, function(err) {
+          if(err) {
+            callback(err);
+          } else {
+            callback(null);
+          }
+        });
+      }
     });
   },
 

@@ -12,7 +12,6 @@ let RosterController = require('./app/controllers/RosterController'),
     SeasonController = require('./app/controllers/SeasonController');
 
 // Connect to db
-mongoose.Promise = require('bluebird');
 mongoose.connect(configDB.url);
 
 // =====================================
@@ -38,26 +37,29 @@ cron.schedule('0 0 * * Mon', () => {
   console.log('Moving to new season...');
 
   SeasonController.getCurrentSeason((season, err) => {
-    if(err)
+    if(err) {
       console.log(err);
-
-    SeasonController.nextSeason(season, (new_season, err) => {
-      if(err)
-        console.log(err);
-
-      console.log('Season ' + new_season.number + ' created...');
-      RosterController.deactivateRoster((err) => {
-        if(err)
+    } else {
+      SeasonController.nextSeason(season, (new_season, err) => {
+        if(err) {
           console.log(err);
+        } else {
+          console.log('Season ' + new_season.number + ' created...');
+          RosterController.deactivateRoster((err) => {
+            if(err) {
+              console.log(err);
+            } else {
+              console.log('Deactivated all players from season ' + season.number);
+              RosterController.generate((err) => {
+                if(err)
+                  console.log(err);
 
-        console.log('Deactivated all players from season ' + season.number);
-        RosterController.generate((err) => {
-          if(err)
-            console.log(err);
-
-          console.log('Generated roster for all players in new season...');
-        });
-      })
-    });
+                console.log('Generated roster for all players in new season...');
+              });
+            }
+          });
+        }
+      });
+    }
   });
 });
