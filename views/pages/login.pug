@@ -1,0 +1,19 @@
+include ../partials/header.pug
+body
+  include ../partials/navbar.pug
+  div.container.row
+    h3.center Login
+    form.col.s12(method='post' action='/login')
+      div.row
+        div.col.s6
+          label(for='email') Email
+          input(placeholder='rogueone@gmail.com' name='email' type='email' required)
+        div.col.s6
+          label(for='password') Password
+          input(name='password' type='password' required)
+      div.row
+        div.input-field.col.s3
+          input(type='submit' value='Login').btn
+        div.input-field.col.s2
+          a(href='/auth/facebook')
+            img(src='/assets/images/icons/facebook.png' height='36px')

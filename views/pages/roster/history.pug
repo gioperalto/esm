@@ -1,0 +1,28 @@
+include ../../partials/header.pug
+body
+  include ../../partials/navbar.pug
+  div.section.white
+    div.container
+      h5.header.center Battle History
+      table.responsive-table.striped.centered
+        thead
+          tr
+            th(data-field='created') Date played
+            th(data-field='victory') Win/Loss
+            th(data-field='opponent') Opponent
+          tbody
+            each battle in battles
+              tr
+                td= battle.created_at
+                td
+                  if battle.victory
+                    span.green-text Win
+                  else
+                    span.red-text Loss
+                td
+                  img(src= battle.opponent.icon).responsive-img
+  div.parallax-container.overlay
+    div.parallax
+      img(src='/assets/images/static/home-2.jpg')
+
+  script(src='/assets/js/scripts/init-parallax.js')

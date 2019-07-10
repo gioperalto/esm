@@ -1,0 +1,38 @@
+include ../../partials/header.pug
+body#home
+  include ../../partials/navbar.pug
+  div.section.white
+    div.container.center
+      h4 #{trainer.fullName}
+      div.row
+        p #{trainer.story}
+        p #{trainer.fullName} will cost you #{trainer.cost} coin and has a #{trainer.chance}% of success raising your mood by at most #{trainer.depth}.
+        table.responsive-table.striped.centered
+            thead
+              tr
+                th(data-field='username') Player
+                th(data-field='mood') Mood
+                th(data-field='cost')
+                  img(src='/assets/images/icons/coin.png' width='32px').valign
+                th(data-field='actions') Actions
+                th(data-field='champion') Champion
+            tbody
+              each roster_item in user.players
+                  tr
+                    td.strong= roster_item.player.username
+                    td= roster_item.mood.name
+                    if roster_item.active_mood < 7
+                      td= trainer.cost
+                      td
+                        form(action='/hire/trainer/'+trainer.id method='post')
+                          input(name='player_id' type='hidden' value=roster_item.id)
+                          button(type='submit').btn.green Train
+                    else
+                      td
+                        p.
+                          -
+                      td
+                        p.
+                          Already fully motivated
+                    td
+                      img(src= roster_item.champion.icon).img-responsive

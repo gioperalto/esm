@@ -1,0 +1,79 @@
+include ../../partials/header.pug
+body#home
+  include ../../partials/navbar.pug
+  div.section.white
+    div.container.center
+      h4 Profile
+      div.row
+        div.col.s12
+          h5 Champion Roster (#{user.players.length}/#{user.roster_limit})
+          span
+            form(action='/sell/all/'+user.id method='post')
+              button.btn.green(type='submit') Sell All Players
+          if user.players.length > 0
+            table.striped.responsive-table
+              thead
+                tr
+                  th(data-field='username') Username
+                  th(data-field='active') Active
+                  th(data-field='mood') Mood
+                  th(data-field='value')
+                    img(src='/assets/images/icons/coin.png' width='32px').valign
+                  th(data-field='elo') ELO
+                  th(data-field='rank') Rank
+                  th(data-field='lane') Lane
+                  th(data-field='wins') Wins
+                  th(data-field='losses') Losses
+                  th(data-field='actions') Actions
+                  th(data-field='champion') Champion
+              tbody
+                each player in user.players
+                  tr
+                    td.strong= player.player.username
+                    td
+                      if player.active
+                        i.material-icons.green-text check_circle
+                    td
+                      i.material-icons(class= player.mood.color+'-text') insert_emoticon
+                    td= player.value
+                    td= player.visible_elo
+                    td= player.rank.name
+                    td= player.lane
+                    td= player.wins
+                    td= player.losses
+                    td
+                      div.fixed-action-btn.center
+                        a.btn-floating.btn-large.red
+                          i.material-icons menu
+                        ul
+                          li
+                            a.btn-floating.blue(href='/roster/history/'+player.id)
+                              i.material-icons insert_chart
+                          li
+                            form(action='/sell/'+player.id method='post')
+                              button.btn-floating.green(type='submit') 
+                                i.material-icons gavel
+                    td
+                      img(src= player.champion.icon).img-responsive
+          else
+            p Your Champion Roster is empty
+      div.row
+        div.col.s12.m6
+          h5 Rewards
+          table.striped
+            thead
+              tr
+                th(data-field='name') Name
+                th(data-field='bounty') Bounty
+            tbody
+              each reward in rewards
+                tr
+                  td
+                    a(href= reward.link)= reward.name
+                  td= reward.bounty
+
+  div.parallax-container.overlay
+    div.parallax
+      img(src='/assets/images/static/home-2.jpg')
+
+  script(src='/assets/js/scripts/init-parallax.js')

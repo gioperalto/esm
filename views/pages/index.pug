@@ -1,0 +1,45 @@
+include ../partials/header.pug
+body#home
+  include ../partials/navbar.pug
+  div.parallax-container.overlay
+    div.section.no-pad-bot
+      div.container
+        h1.header.center.white-text E-Sports Manager
+      div.row.center
+        h5.header.col.s12.light.white-text.
+          Become the manager of the next League of Legends superstar
+      div.row.center
+        a(href='/signup').btn-large.deep-orange Create an account
+    div.parallax
+      img(src='/assets/images/static/home.jpg')
+  div.section.white
+    div.row.container
+      div.col.s12.m4
+        div.icon-block
+          h2.center
+            i.material-icons accessibility
+          h5.center.
+            Be a Boss
+          p.light.center.
+            Manage virtual League of Legends players as they rise to fame, win championships and even have career-ending losses.
+      div.col.s12.m4
+        div.icon-block
+          h2.center
+            i.material-icons trending_up
+          h5.center.
+            Be the Best
+          p.light.center.
+            Unlike Fantasy Football, you can hire an analyst to select the hottest prospects or even the right coach to motivate your player(s).
+      div.col.s12.m4
+        div.icon-block
+          h2.center
+            i.material-icons line_style
+          h5.center.
+            Be Competitive
+          p.light.center.
+            In addition to seasonal gameplay, users can enter tournaments with the players on a current roster to win phenomenal prizes.
+  div.parallax-container.overlay
+    div.parallax
+      img(src='/assets/images/static/home-2.jpg')
+
+  script(src='/assets/js/scripts/init-parallax.js')
