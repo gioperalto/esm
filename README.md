@@ -1,10 +1,6 @@
 # E-Sports Manager
 
-<<<<<<< HEAD
 E-Sports Manager (ESM) is a Fantasy Football experienced wrapped up in an elegant, gamer-loving package tailored to the theme of League of Legends (LoL). This application allows its users to live out the fantasy of being an e-sports manager in the world of LoL. The system generates players who select new champions every season and battle against eachother. As a manager your job can be to train players until they become successful, or even just betting on the right people. You can buy players from the active roster or sell them for a gain or loss.
-=======
-A Fantasy Football experienced wrapped up in a beautiful gamer-loving package suited to League of Legends.
->>>>>>> 30681675720bbf44688f60f2d8035240202e571a
 
 ## Tech Stack
 ### Backend (MEN)
