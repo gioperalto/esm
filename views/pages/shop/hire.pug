@@ -1,0 +1,61 @@
+include ../../partials/header.pug
+body#home
+  include ../../partials/navbar.pug
+  div.section.white
+    div.container.center
+      h4 Hire
+      div.row
+        div.col.s12.m6
+          h5 Hire a trainer
+          p.
+            A trainer has the ability to motivate your player so that they perform
+            at a higher level. Being in a better mood can have a positive outcome
+            on how much your player learns in a match.
+          table.responsive-table.striped.centered
+            thead
+              tr
+                th(data-field='name') Name
+                th(data-field='cost')
+                  img(src='/assets/images/icons/coin.png' width='32px').valign
+                th(data-field='depth') Depth
+                th(data-field='effectiveness') Effectiveness
+                th(data-field='view') View
+            tbody
+              each trainer in trainers
+                tr
+                  td= trainer.fullName
+                  td= trainer.cost
+                  td= trainer.depth
+                  td #{trainer.chance}%
+                  td
+                    a(href='/hire/trainer/'+trainer.id).btn-floating.waves-effect
+                      i.material-icons search
+        div.col.s12.m6
+          h5 Hire an analyst
+          p.
+            An analyst is a trained expert when it comes to understanding how players
+            operate. This entails an aprehension of all the secret factors involved in
+            what makes a player great.
+          table.responsive-table.striped.centered
+            thead
+              tr
+                th(data-field='name') Name
+                th(data-field='cost')
+                  img(src='/assets/images/icons/coin.png' width='32px').valign
+                th(data-field='depth') Depth
+                th(data-field='view') View
+            tbody
+              each analyst in analysts
+                tr
+                  td= analyst.fullName
+                  td= analyst.cost
+                  td= analyst.depth
+                  td
+                    a.btn-floating.waves-effect
+                      i.material-icons search
+
+  div.parallax-container.overlay
+    div.parallax
+      img(src='/assets/images/static/home-2.jpg')
+
+  script(src='/assets/js/scripts/init-parallax.js')
