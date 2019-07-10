@@ -123,16 +123,17 @@ module.exports = {
         callback(err);
       } else {
         module.exports.getActiveRoster(function(roster, err) {
-          if(err)
+          if(err) {
             callback(err);
-
-          async.each(roster, module.exports.deactivateRosterPlayer, function(err) {
-            if(err) {
-              callback(err);
-            } else {
-              callback(null);
-            }
-          });
+          } else {
+            async.each(roster, module.exports.deactivateRosterPlayer, function(err) {
+              if(err) {
+                callback(err);
+              } else {
+                callback(null);
+              }
+            });
+          }
         });
       }
     });
