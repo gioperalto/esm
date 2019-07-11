@@ -17,6 +17,7 @@ E-Sports Manager (ESM) is a Fantasy Football experienced wrapped up in an elegan
 1. Launch mongodb instance (or cluster) and configure mongodb settings in config/database.js
 2. Once mongo is running, you should be able to kick the app off with `npm start PORT=XXXX` or `node app PORT=XXXX` where X is a number
 3. Web application will be available at http://localhost:PORT (defaults to 1337)
+4. Matches and player stats will accrue over time if the daemon.js file is running (`node daemon.js`) on a separate process
 
 ## Home Page
 The home page provides links to the account creation, login, players, and roster pages. These pages are public by default, however logging in will grant you access to additional pages.
