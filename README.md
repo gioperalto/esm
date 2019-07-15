@@ -15,7 +15,7 @@ E-Sports Manager (ESM) is a Fantasy Football experienced wrapped up in an elegan
 **App is currently coupled (frontend and backend are in the same app). It would be nice to decouple (separate frontend + backend) the application.**
 
 ## Startup (Initialization)
-1. You'll need Node.js (and npm) to run this project
+1. You'll need [NPM](https://www.npmjs.com/) to run this project
 2. Run `npm install`
 3. Launch mongodb instance (or cluster) and configure mongodb settings in config/database.js
 4. Once mongo is running, you should be able to kick the app off with `npm start PORT=XXXX` or `node app PORT=XXXX` where X is a number
