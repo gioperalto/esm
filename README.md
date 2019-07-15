@@ -3,20 +3,24 @@
 E-Sports Manager (ESM) is a Fantasy Football experienced wrapped up in an elegant, gamer-loving package tailored to the theme of League of Legends (LoL). This application allows its users to live out the fantasy of being an e-sports manager in the world of LoL. The system generates players who select new champions every season and battle against eachother. As a manager your job can be to train players until they become successful, or even just betting on the right people. You can buy players from the active roster or sell them for a gain or loss.
 
 ## Tech Stack
-### Backend (MEN)
+
+### Backend + API
 1. Mongo/Mongoose
 2. Express.js
 3. NodeJS
 
-### Frontend (P)
+### Frontend
 1. Pug
 
 **App is currently coupled (frontend and backend are in the same app). It would be nice to decouple (separate frontend + backend) the application.**
 
 ## Startup (Initialization)
-1. Launch mongodb instance (or cluster) and configure mongodb settings in config/database.js
-2. Once mongo is running, you should be able to kick the app off with `npm start PORT=XXXX` or `node app PORT=XXXX` where X is a number
-3. Web application will be available at http://localhost:PORT (defaults to 1337)
+1. You'll need [NPM](https://www.npmjs.com/) to run this project
+2. Run `npm install`
+3. Launch mongodb instance (or cluster) and configure mongodb settings in config/database.js
+4. Once mongo is running, you should be able to kick the app off with `npm start PORT=XXXX` or `node app PORT=XXXX` where X is a number
+5. Web application will be available at http://localhost:PORT (defaults to 1337)
+6. Matches and player stats will accrue over time if the daemon.js file is running (`node daemon.js`) on a separate process
 
 ## Home Page
 The home page provides links to the account creation, login, players, and roster pages. These pages are public by default, however logging in will grant you access to additional pages.
